@@ -1,3 +1,3 @@
-export * from "./GuildsError";
-export * from "./EventHandler";
-export * from "./Client";
+export * from "@/classes/GuildsError";
+export * from "@/classes/EventHandler";
+export * from "@/classes/Client";
