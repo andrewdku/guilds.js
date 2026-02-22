@@ -1,7 +1,6 @@
 import type { ClientEvents, ClientProps, GatewayPayload } from "@/types";
-import { GuildsError } from "@/classes/GuildsError";
-import { EventHandler } from "@/classes/EventHandler";
 import { baseApiUrl, opCodes } from "@/utils";
+import { EventHandler, GuildsError } from "@/classes";
 
 export class Client<
     Ready extends boolean = false,

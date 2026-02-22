@@ -1,1 +1,1 @@
-export * from "@/utils/constants";
+export * from "./constants";

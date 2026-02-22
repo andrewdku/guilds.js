@@ -1,5 +1,5 @@
 import type { errorCodes, opCodes } from "@/utils";
-import type { Client } from "@/classes/Client";
+import type { Client } from "@/classes";
 
 export type ClientEvents = {
     debug: [message: string];
