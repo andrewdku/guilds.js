@@ -5,7 +5,8 @@
     "license": "Apache-2.0",
     "scripts": {
         "build": "tsdown",
-        "format": "prettier --write . --config package.json --ignore-path .prettierignore"
+        "format": "prettier --write . --config package.json --ignore-path .prettierignore",
+        "prepublish": "tsdown"
     },
     "exports": {
         "default": "./dist/index.cjs",
