@@ -14,7 +14,8 @@
         "types": "./dist/index.d.cts"
     },
     "scripts": {
-        "build": "tsdown"
+        "build": "tsdown",
+        "format": "prettier --write . --config .prettierrc.json --ignore-path .prettierignore"
     },
     "files": [
         "dist",
