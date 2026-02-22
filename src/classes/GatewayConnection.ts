@@ -2,6 +2,7 @@ import type { GatewayPayload } from "@/types";
 import { baseApiUrl, opCodes } from "@/utils";
 import { Client } from "@/classes/Client";
 import { GuildsError } from "@/classes/GuildsError";
+import { handleGatewayEvent } from "@/utils/gateway-events";
 
 export class GatewayConnection {
     #client: Client;
@@ -74,6 +75,10 @@ export class GatewayConnection {
                             },
                         })
                     );
+                }
+
+                default: {
+                    handleGatewayEvent(payload);
                 }
             }
         };
