@@ -56,7 +56,7 @@
     "prettier": {
         "arrowParens": "always",
         "jsxSingleQuote": false,
-        "printWidth": 85,
+        "printWidth": 90,
         "quoteProps": "as-needed",
         "semi": true,
         "singleQuote": false,

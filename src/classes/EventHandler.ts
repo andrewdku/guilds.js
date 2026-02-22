@@ -39,7 +39,6 @@ export class EventHandler<Events extends Record<string, any[]>> {
         this.#listeners[event] = this.#listeners[event]!.filter(
             (l) => l !== listener
         );
-
         return this;
     }
 

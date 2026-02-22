@@ -2,9 +2,7 @@ import type { ClientEvents, ClientProps, GatewayPayload } from "@/types";
 import { baseApiUrl, opCodes } from "@/utils";
 import { EventHandler, GuildsError } from "@/classes";
 
-export class Client<
-    Ready extends boolean = false,
-> extends EventHandler<ClientEvents> {
+export class Client<Ready extends boolean = false> extends EventHandler<ClientEvents> {
     #token: string;
     #heartbeatInterval?: NodeJS.Timeout;
     #sequenceNumber: number | null = null;
@@ -73,8 +71,9 @@ export class Client<
         const data: any = await res.json();
 
         this.#ws = new WebSocket(`${data.url}?v=10&encoding=json`);
-        this.#ws.onmessage = (event) =>
+        this.#ws.onmessage = (event) => {
             this.#handleGatewayEvent(JSON.parse(event.data.toString()));
+        };
 
         return this as Client<true>;
     }
