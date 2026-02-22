@@ -1,4 +1,11 @@
 import type { errorCodes, opCodes } from "@/utils";
+import type { Client } from "@/classes/Client";
+
+export type ClientEvents = {
+    debug: [message: string];
+    error: [error: any];
+    ready: [readyClient: Client<true>];
+};
 
 export interface ClientProps {
     token: string;
