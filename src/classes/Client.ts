@@ -21,15 +21,15 @@ export class Client {
 
     public constructor(props: ClientProps) {
         if (!props) {
-            throw new GuildsError("ClientPropsError", "Props must be provided");
+            throw new GuildsError("Props must be provided", "ClientPropsError");
         }
 
         if (!props.token) {
-            throw new GuildsError("ClientTokenError", "Token must be provided");
+            throw new GuildsError("Token must be provided", "ClientTokenError");
         }
 
         if (!props.intents) {
-            throw new GuildsError("ClientIntentsError", "Intents must be provided");
+            throw new GuildsError("Intents must be provided", "ClientIntentsError");
         }
 
         this.#intents = props.intents;

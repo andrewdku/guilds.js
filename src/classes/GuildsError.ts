@@ -2,15 +2,21 @@ import type { ErrorCode } from "@/types";
 
 export class GuildsError extends Error {
     public static override name: string = "GuildsError";
-    public readonly code: ErrorCode;
+    public readonly scope?: ErrorCode;
 
     public override get name(): string {
-        return `${this.constructor.name} (${this.code})`;
+        return this.scope
+            ? `${this.constructor.name} (${this.scope})`
+            : this.constructor.name;
     }
 
-    public constructor(code: ErrorCode, ...args: unknown[]) {
-        super(args.join(" "));
-        this.code = code;
+    public constructor(message: string, scope?: ErrorCode) {
+        super(message);
+
+        if (scope) {
+            this.scope = scope;
+        }
+
         Error.captureStackTrace?.(this, this.constructor);
     }
 }

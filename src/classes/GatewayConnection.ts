@@ -15,7 +15,7 @@ export class GatewayConnection {
 
     public constructor(client: Client) {
         if (!client || !(client instanceof Client)) {
-            throw new GuildsError("GatewayError", "Invalid gateway client provided");
+            throw new GuildsError("Invalid gateway client provided", "GatewayError");
         }
 
         this.#client = client;
@@ -34,8 +34,8 @@ export class GatewayConnection {
 
         if (!res.ok || !userRes.ok) {
             throw new GuildsError(
-                "GatewayError",
-                "Failed to connect to the Discord gateway"
+                "Failed to connect to the Discord gateway",
+                "GatewayError"
             );
         }
 
