@@ -1,0 +1,3 @@
+# guilds.js
+
+Coming soon...

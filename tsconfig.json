@@ -1,0 +1,22 @@
+{
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "include": ["src"],
+    "exclude": ["dist", "node_modules", "test", "**/*.DS_Store*"],
+    "compilerOptions": {
+        "allowJs": true,
+        "declaration": false,
+        "esModuleInterop": true,
+        "lib": ["ES2022"],
+        "module": "ES2022",
+        "moduleResolution": "bundler",
+        "noEmit": true,
+        "noUncheckedIndexedAccess": true,
+        "paths": { "@/*": ["./src/*"] },
+        "removeComments": false,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "target": "ES2022",
+        "verbatimModuleSyntax": true
+    }
+}
