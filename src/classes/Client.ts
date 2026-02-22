@@ -1,8 +1,10 @@
 import type { ClientProps } from "@/types";
-import { GuildsError } from "@/classes";
+import { GatewayConnection } from "@/classes/GatewayConnection";
+import { GuildsError } from "@/classes/GuildsError";
 
 export class Client {
     #token: string;
+    #gateway?: GatewayConnection;
     #intents: number;
 
     public get token() {
@@ -11,6 +13,10 @@ export class Client {
 
     public get intents() {
         return this.#intents;
+    }
+
+    public get gateway() {
+        return this.#gateway;
     }
 
     public constructor(props: ClientProps) {
@@ -26,7 +32,24 @@ export class Client {
             throw new GuildsError("ClientIntentsError", "Intents must be provided");
         }
 
-        this.#token = props.token;
         this.#intents = props.intents;
+        this.#token = props.token.trim().toLowerCase().startsWith("bot ")
+            ? props.token
+            : `Bot ${props.token}`;
+    }
+
+    public async connect() {
+        if (!this.#gateway) {
+            this.#gateway = new GatewayConnection(this);
+            this.#gateway.connect();
+        }
+    }
+
+    public async disconnect() {
+        if (this.#gateway) {
+            this.#gateway.disconnect();
+        }
+
+        return;
     }
 }
