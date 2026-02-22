@@ -5,7 +5,7 @@
     "license": "Apache-2.0",
     "scripts": {
         "build": "tsdown",
-        "format": "prettier --write . --config .prettierrc.json --ignore-path .prettierignore"
+        "format": "prettier --write . --config package.json --ignore-path .prettierignore"
     },
     "exports": {
         "default": "./dist/index.cjs",
@@ -17,6 +17,12 @@
     "module": "./dist/index.mjs",
     "types": "./dist/index.d.mts",
     "type": "module",
+    "devDependencies": {
+        "@types/node": "^25.3.0",
+        "prettier": "^3.8.1",
+        "tsdown": "^0.20.3",
+        "typescript": "^5.9.3"
+    },
     "files": [
         "dist",
         "LICENSE",
@@ -46,10 +52,15 @@
     "publishConfig": {
         "access": "public"
     },
-    "devDependencies": {
-        "@types/node": "^25.3.0",
-        "prettier": "^3.8.1",
-        "tsdown": "^0.20.3",
-        "typescript": "^5.9.3"
+    "prettier": {
+        "arrowParens": "always",
+        "jsxSingleQuote": false,
+        "printWidth": 85,
+        "quoteProps": "as-needed",
+        "semi": true,
+        "singleQuote": false,
+        "tabWidth": 4,
+        "trailingComma": "es5",
+        "useTabs": false
     }
 }
