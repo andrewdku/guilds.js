@@ -3,33 +3,45 @@
     "description": "Interact with Discord's API with ease",
     "version": "0.0.1",
     "license": "Apache-2.0",
-    "main": "./dist/index.mjs",
-    "module": "./dist/index.mjs",
-    "types": "./dist/index.d.mts",
-    "type": "module",
+    "scripts": {
+        "build": "tsdown",
+        "format": "prettier --write . --config .prettierrc.json --ignore-path .prettierignore"
+    },
     "exports": {
         "default": "./dist/index.cjs",
         "import": "./dist/index.mjs",
         "require": "./dist/index.cjs",
         "types": "./dist/index.d.cts"
     },
-    "scripts": {
-        "build": "tsdown",
-        "format": "prettier --write . --config .prettierrc.json --ignore-path .prettierignore"
-    },
+    "main": "./dist/index.mjs",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.mts",
+    "type": "module",
     "files": [
         "dist",
         "LICENSE",
         "package.json",
         "README.md"
     ],
-    "author": {
-        "name": "e60m5ss",
-        "url": "https://github.com/e60m5ss"
-    },
+    "keywords": [
+        "api",
+        "discord",
+        "discord-bot",
+        "javascript",
+        "library",
+        "module",
+        "node",
+        "node-js",
+        "npm",
+        "pnpm",
+        "tsdown",
+        "typescript",
+        "websocket",
+        "ws"
+    ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/e60m5ss/guilds"
+        "url": "https://github.com/andrewdku/guilds"
     },
     "publishConfig": {
         "access": "public"
