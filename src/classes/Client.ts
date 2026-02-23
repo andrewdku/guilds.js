@@ -1,5 +1,5 @@
 import type { ClientEvents, ClientPresence, ClientProps, GatewayPayload } from "@/types";
-import { DiscordAPI, EventHandler, GuildsError, Routes } from "@/classes";
+import { DiscordAPI, EventHandler, GuildsError, Endpoints } from "@/classes";
 import { activityTypes, opCodes } from "@/utils";
 
 export class Client<Ready extends boolean = false> extends EventHandler<ClientEvents> {
@@ -73,8 +73,8 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
     }
 
     public async connect(): Promise<Client<true>> {
-        const res = await this.#api.get(Routes.gateway(true));
-        const userRes = await this.#api.get(Routes.user());
+        const res = await this.#api.get(Endpoints.gateway(true));
+        const userRes = await this.#api.get(Endpoints.user());
 
         if (!res.ok || !userRes.ok || !res || !userRes) {
             throw new GuildsError("Failed to connect to Discord", "GatewayError");

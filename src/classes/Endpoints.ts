@@ -1,6 +1,6 @@
 import { baseApiUrl } from "@/utils";
 
-export class Routes {
+export class Endpoints {
     public static gateway(bot: boolean = false) {
         return `${baseApiUrl}/gateway${bot ? "/bot" : ""}` as const;
     }
