@@ -77,7 +77,7 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
     }
 
     public async connect(): Promise<Client<true>> {
-        const res = await this.#rest.get(Endpoints.gateway(true));
+        const res = await this.#rest.get(Endpoints.gatewayBot());
         const userRes = await this.#rest.get(Endpoints.user());
 
         if (!res.ok || !userRes.ok || !res || !userRes) {

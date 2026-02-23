@@ -1,8 +1,12 @@
 import { baseApiUrl } from "@/utils";
 
 export class Endpoints {
-    public static gateway(bot: boolean = false) {
-        return `${baseApiUrl}/gateway${bot ? "/bot" : ""}` as const;
+    public static gateway() {
+        return `${baseApiUrl}/gateway` as const;
+    }
+
+    public static gatewayBot() {
+        return `${Endpoints.gateway()}/bot` as const;
     }
 
     public static user(userId: string = "@me") {
