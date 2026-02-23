@@ -207,6 +207,7 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
 
                 this.#sessionId = payload.d.session_id;
                 this.#ready = true;
+                this.emit("debug", "Received Dispatch (Ready) event");
                 this.emit("ready", this as Client<true>);
 
                 break;
