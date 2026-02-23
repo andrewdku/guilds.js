@@ -1,5 +1,9 @@
 <p align="center">
-  <img src="public/logo.png" alt="guilds.js Logo" width="85" />
+  <img
+    alt="guilds.js Logo"
+    width="85"
+    src="https://cdn.discordapp.com/attachments/1025091872198250597/1475481054004646100/guildslogo1.png?ex=699da450&is=699c52d0&hm=57ded16ddbafe1b094a44e78b1ae5ea2e3c647bd2b830c44354b6e11e6ecf0c5&"
+  />
 </p>
 
 <div align="center">
