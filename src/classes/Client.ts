@@ -51,6 +51,17 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
             throw new GuildsError("Invalid intents were provided", "ClientIntentsError");
         }
 
+        if (props.presence) {
+            if (typeof props.presence !== "object") {
+                throw new GuildsError(
+                    "Invalid client presence was provided",
+                    "ClientPropsError"
+                );
+            }
+
+            this.setPresence(props.presence);
+        }
+
         this.#token = props.token.trim().toLowerCase().startsWith("bot ")
             ? props.token
             : `Bot ${props.token}`;
@@ -159,6 +170,8 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
                 })
             );
         }
+
+        return this;
     }
 
     public async disconnect(): Promise<void> {

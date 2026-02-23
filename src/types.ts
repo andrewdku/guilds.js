@@ -28,6 +28,7 @@ export interface ClientPresence {}
 export interface ClientProps {
     token: string;
     intents: number;
+    presence?: Partial<ClientPresence>;
 }
 
 export type ErrorCode = (typeof errorCodes)[keyof typeof errorCodes];
