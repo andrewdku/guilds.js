@@ -6,6 +6,7 @@
     "scripts": {
         "build": "tsdown",
         "format": "prettier --write . --config package.json --ignore-path .prettierignore",
+        "lint": "tsc --noEmit",
         "prepublish": "tsdown"
     },
     "exports": {
