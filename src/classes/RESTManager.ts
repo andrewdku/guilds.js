@@ -1,5 +1,5 @@
 import type { HTTPRequestMethod } from "@/types";
-import { GuildsError } from "./GuildsError";
+import { GuildsError } from "@/classes";
 
 /**
  * Class representing a Discord API manager
