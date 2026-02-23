@@ -1,6 +1,3 @@
-/**
- * Activity types
- */
 export const ActivityType = {
     Competing: 5,
     Custom: 4,
@@ -12,26 +9,40 @@ export const ActivityType = {
 
 export const baseApiUrl = "https://discord.com/api/v10";
 
-const errorScopes = [
-    "ClientIntentsError",
-    "ClientPropsError",
-    "ClientTokenError",
-    "DiscordAPIError",
-    "GatewayError",
-    "WebSocketError",
-] as const;
-
 export const GatewayOpcodes = {
-    Dispatch: 0, // Receive
-    Heartbeat: 1, // Send or Receive
-    HeartbeatACK: 11, // Receive
-    Hello: 10, // Receive
-    Identify: 2, // Send
-    InvalidSession: 9, // Receive
-    PresenceUpdate: 3, // Send
-    Reconnect: 7, // Receive
-    RequestGuildMembers: 8, // Send
-    RequestSoundboardSounds: 12, // Send
-    Resume: 6, // Send
-    VoiceStateUpdate: 3, // Send
+    /** Receive */
+    Dispatch: 0,
+
+    /** Send or Receive */
+    Heartbeat: 1,
+
+    /** Receive */
+    HeartbeatACK: 11,
+
+    /** Receive */
+    Hello: 10,
+
+    /** Send */
+    Identify: 2,
+
+    /** Receive */
+    InvalidSession: 9,
+
+    /** Send */
+    PresenceUpdate: 3,
+
+    /** Receive */
+    Reconnect: 7,
+
+    /** Send */
+    RequestGuildMembers: 8,
+
+    /** Send */
+    RequestSoundboardSounds: 12,
+
+    /** Send */
+    Resume: 6,
+
+    /** Send */
+    VoiceStateUpdate: 3,
 } as const;
