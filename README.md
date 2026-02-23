@@ -25,7 +25,22 @@ bun add guilds.js
 ## Example
 
 ```js
-// Coming soon...
+import { Client } from "guilds.js";
+
+const client = new Client({
+    // https://discord.com/developers/applications
+    token: "bot token",
+
+    // client intents (as a number)
+    intents: 0,
+});
+
+client.once("ready", () => {
+    console.log("Client is ready!");
+});
+
+// start connection to Discord gateway
+client.connect();
 ```
 
 # Contributing
