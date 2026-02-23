@@ -1,11 +1,11 @@
+import { EventHandler, GuildsError, Endpoints, RESTManager } from "@/classes";
+import { ActivityTypes, GatewayOpcodes } from "@/utils";
 import type {
     ClientEvents,
     ClientPresenceProps,
     ClientProps,
     GatewayPayload,
 } from "@/types";
-import { EventHandler, GuildsError, Endpoints, RESTManager } from "@/classes";
-import { ActivityType, GatewayOpcodes } from "@/utils";
 
 /**
  * Class representing a Discord bot client
@@ -234,7 +234,7 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
                             ...a,
                             type:
                                 typeof a.type === "string"
-                                    ? ActivityType[a.type as keyof typeof ActivityType]
+                                    ? ActivityTypes[a.type as keyof typeof ActivityTypes]
                                     : a.type,
                         })),
                     },

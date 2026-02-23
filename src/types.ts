@@ -1,4 +1,4 @@
-import type { ActivityType, GatewayOpcodes } from "@/utils";
+import type { ActivityTypes, GatewayOpcodes } from "@/utils";
 import type { Client } from "@/classes";
 
 export interface UserActivity {
@@ -9,8 +9,8 @@ export interface UserActivity {
 }
 
 export type UserActivityType =
-    | keyof typeof ActivityType
-    | (typeof ActivityType)[keyof typeof ActivityType];
+    | keyof typeof ActivityTypes
+    | (typeof ActivityTypes)[keyof typeof ActivityTypes];
 
 export type ClientEvents = {
     debug: [message: string];
@@ -41,9 +41,6 @@ const errorScopes = [
 
 export type ErrorScope = (typeof errorScopes)[keyof typeof errorScopes];
 
-/**
- * Discord gateway payload object
- */
 export interface GatewayPayload {
     op: (typeof GatewayOpcodes)[keyof typeof GatewayOpcodes];
     d?: any;
@@ -52,11 +49,9 @@ export interface GatewayPayload {
 }
 
 export type HTTPRequestMethod = "DELETE" | "GET" | "PATCH" | "POST" | "PUT";
-
 export type If<Condition extends boolean, Then, Else = never> = Condition extends true
     ? Then
     : Else;
 
 export type IntentsResolvable = number | number[];
-
 export type UserStatus = "online" | "idle" | "dnd" | "offline";

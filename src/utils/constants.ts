@@ -1,4 +1,4 @@
-export const ActivityType = {
+export const ActivityTypes = {
     Competing: 5,
     Custom: 4,
     Listening: 2,
@@ -8,7 +8,6 @@ export const ActivityType = {
 } as const;
 
 export const baseApiUrl = "https://discord.com/api/v10";
-
 export const GatewayOpcodes = {
     /** Receive */
     Dispatch: 0,
