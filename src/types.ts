@@ -1,11 +1,29 @@
-import type { errorCodes, opCodes } from "@/utils";
+import type { activityTypes, errorCodes, opCodes } from "@/utils";
 import type { Client } from "@/classes";
+
+export type ActivityType =
+    | keyof typeof activityTypes
+    | (typeof activityTypes)[keyof typeof activityTypes];
 
 export type ClientEvents = {
     debug: [message: string];
     error: [error: any];
     ready: [readyClient: Client<true>];
 };
+
+export interface ClientPresence {
+    activities: ClientActivity[];
+    platform: "desktop" | "mobile";
+    status: UserStatus;
+}
+
+export interface ClientActivity {
+    name: string;
+    state?: string;
+    type: ActivityType;
+    url?: string;
+}
+export interface ClientPresence {}
 
 export interface ClientProps {
     token: string;
@@ -20,3 +38,5 @@ export interface GatewayPayload {
     s?: number | null;
     t?: string | null;
 }
+
+export type UserStatus = "online" | "idle" | "dnd" | "offline";

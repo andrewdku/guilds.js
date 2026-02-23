@@ -1,3 +1,12 @@
+export const activityTypes = {
+    Competing: 5,
+    Custom: 4,
+    Listening: 2,
+    Playing: 0,
+    Streaming: 1,
+    Watching: 3,
+} as const;
+
 export const baseApiUrl = "https://discord.com/api/v10";
 
 export const errorCodes = [

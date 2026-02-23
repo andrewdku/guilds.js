@@ -1,10 +1,11 @@
-import type { ClientEvents, ClientProps, GatewayPayload } from "@/types";
-import { baseApiUrl, opCodes } from "@/utils";
+import type { ClientEvents, ClientPresence, ClientProps, GatewayPayload } from "@/types";
+import { activityTypes, baseApiUrl, opCodes } from "@/utils";
 import { EventHandler, GuildsError } from "@/classes";
 
 export class Client<Ready extends boolean = false> extends EventHandler<ClientEvents> {
     #token: string;
     #heartbeatInterval?: NodeJS.Timeout;
+    #presence: ClientPresence = { platform: "desktop", status: "online", activities: [] };
     #sequenceNumber: number | null = null;
     #sessionId?: string;
     #intents: number;
@@ -21,6 +22,10 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
 
     public get heartbeatInterval() {
         return this.#heartbeatInterval;
+    }
+
+    public get presence() {
+        return this.#presence;
     }
 
     public isReady(): this is Client<true> {
@@ -102,11 +107,19 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
                         d: {
                             token: this.#token,
                             intents: this.#intents,
-                            properties: {
-                                $os: "linux",
-                                $browser: "guilds.js",
-                                $device: "guilds.js",
-                            },
+                            presence: this.#presence,
+                            properties:
+                                this.#presence.platform === "desktop"
+                                    ? {
+                                          $os: "linux",
+                                          $browser: "guilds.js",
+                                          $device: "guilds.js",
+                                      }
+                                    : {
+                                          $os: "Discord Android",
+                                          $browser: "Discord Android",
+                                          $device: "Discord Android",
+                                      },
                         },
                     })
                 );
@@ -125,6 +138,30 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
 
                 break;
             }
+        }
+    }
+
+    public setPresence(presence: Partial<ClientPresence>) {
+        this.#presence = { ...this.#presence, ...presence };
+
+        if (this.#ws) {
+            this.#ws.send(
+                JSON.stringify({
+                    op: opCodes.PresenceUpdate,
+                    d: {
+                        status: this.#presence.status,
+                        since: null,
+                        afk: false,
+                        activities: (this.#presence.activities ?? []).map((a) => ({
+                            ...a,
+                            type:
+                                typeof a.type === "string"
+                                    ? activityTypes[a.type as keyof typeof activityTypes]
+                                    : a.type,
+                        })),
+                    },
+                })
+            );
         }
     }
 
