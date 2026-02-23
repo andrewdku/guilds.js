@@ -29,7 +29,7 @@ export class RESTManager {
         const res = await fetch(endpoint, {
             method,
             headers: {
-                Authorization: `Bot ${this.#token}`,
+                Authorization: this.#token,
                 "Content-Type": "application/json",
                 ...(init?.headers ?? {}),
             },

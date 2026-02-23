@@ -139,13 +139,13 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
         const res = await this.#rest.get(Endpoints.gatewayBot());
         const userRes = await this.#rest.get(Endpoints.user());
 
+        console.log(userRes);
+
         if (!res.ok || !userRes.ok || !res || !userRes) {
             throw new GuildsError("Failed to connect to Discord", "GatewayError");
         }
 
-        const data: any = await res.json();
-
-        this.#ws = new WebSocket(`${data.url}?v=10&encoding=json`);
+        this.#ws = new WebSocket(`${res.data.url}?v=10&encoding=json`);
         this.#ws.onmessage = (event) => {
             this.#handleGatewayEvent(JSON.parse(event.data.toString()));
         };
