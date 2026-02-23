@@ -75,18 +75,19 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
         super();
 
         if (!props || typeof props !== "object") {
-            throw new GuildsError(
-                "Invalid client props were provided",
-                "ClientPropsError"
-            );
+            throw new GuildsError("Invalid client props provided", "ClientPropsError");
         }
 
         if (!props.token || typeof props.token !== "string") {
-            throw new GuildsError("Invalid token was provided", "ClientTokenError");
+            throw new GuildsError("Invalid token provided", "ClientTokenError");
         }
 
-        if (!props.intents || typeof props.intents !== "number") {
-            throw new GuildsError("Invalid intents were provided", "ClientIntentsError");
+        if (
+            props.intents === null ||
+            props.intents === undefined ||
+            (Array.isArray(props.intents) == false && typeof props.intents !== "number")
+        ) {
+            throw new GuildsError("Invalid intents provided", "ClientIntentsError");
         }
 
         if (props.presence) {
@@ -104,8 +105,29 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
             ? props.token
             : `Bot ${props.token}`;
 
-        this.#intents = props.intents;
         this.#rest = new RESTManager(this.#token);
+
+        if (Array.isArray(props.intents)) {
+            let intents = props.intents as number[];
+            let parsedIntents: number = 0;
+
+            for (const intent of intents) {
+                if (typeof intent !== "number") {
+                    throw new GuildsError(
+                        "Invalid intents provided",
+                        "ClientIntentsError"
+                    );
+                }
+
+                parsedIntents += intent;
+            }
+
+            this.#intents = parsedIntents;
+        } else if (typeof props.intents === "number") {
+            this.#intents = props.intents;
+        } else {
+            throw new GuildsError("Invalid intents provided", "ClientIntentsError");
+        }
 
         return this;
     }

@@ -26,7 +26,7 @@ export interface ClientPresenceProps {
 
 export interface ClientProps {
     token: string;
-    intents: number;
+    intents: IntentsResolvable;
     presence?: Partial<ClientPresenceProps>;
 }
 
@@ -47,5 +47,7 @@ export type HTTPRequestMethod = "DELETE" | "GET" | "PATCH" | "POST" | "PUT";
 export type If<Condition extends boolean, Then, Else = never> = Condition extends true
     ? Then
     : Else;
+
+export type IntentsResolvable = number | number[];
 
 export type UserStatus = "online" | "idle" | "dnd" | "offline";
