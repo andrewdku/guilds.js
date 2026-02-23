@@ -1,15 +1,15 @@
 import type { ClientEvents, ClientPresence, ClientProps, GatewayPayload } from "@/types";
-import { DiscordAPI, EventHandler, GuildsError, Endpoints } from "@/classes";
+import { EventHandler, GuildsError, Endpoints, RESTManager } from "@/classes";
 import { activityTypes, opCodes } from "@/utils";
 
 export class Client<Ready extends boolean = false> extends EventHandler<ClientEvents> {
-    #api: DiscordAPI;
     #token: string;
     #heartbeatInterval?: NodeJS.Timeout;
-    #presence: ClientPresence = { platform: "desktop", status: "online", activities: [] };
     #sequenceNumber: number | null = null;
     #sessionId?: string;
     #intents: number;
+    #presence: ClientPresence = { platform: "desktop", status: "online", activities: [] };
+    #rest: RESTManager;
     #ready: boolean = false;
     #ws?: WebSocket;
 
@@ -27,6 +27,10 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
 
     public get presence() {
         return this.#presence;
+    }
+
+    public get rest() {
+        return this.#rest;
     }
 
     public isReady(): this is Client<true> {
@@ -67,14 +71,14 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
             : `Bot ${props.token}`;
 
         this.#intents = props.intents;
-        this.#api = new DiscordAPI(this.#token);
+        this.#rest = new RESTManager(this.#token);
 
         return this;
     }
 
     public async connect(): Promise<Client<true>> {
-        const res = await this.#api.get(Endpoints.gateway(true));
-        const userRes = await this.#api.get(Endpoints.user());
+        const res = await this.#rest.get(Endpoints.gateway(true));
+        const userRes = await this.#rest.get(Endpoints.user());
 
         if (!res.ok || !userRes.ok || !res || !userRes) {
             throw new GuildsError("Failed to connect to Discord", "GatewayError");
