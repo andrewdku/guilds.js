@@ -1,8 +1,11 @@
-import type { ErrorCode } from "@/types";
+import type { ErrorScope } from "@/types";
 
+/**
+ * Class representing a library-related error
+ */
 export class GuildsError extends Error {
     public static override name: string = "GuildsError";
-    public readonly scope?: ErrorCode;
+    public readonly scope?: ErrorScope;
 
     public override get name(): string {
         return this.scope
@@ -10,7 +13,7 @@ export class GuildsError extends Error {
             : this.constructor.name;
     }
 
-    public constructor(message: string, scope?: ErrorCode) {
+    public constructor(message: string, scope?: ErrorScope) {
         super(message);
 
         if (scope) {

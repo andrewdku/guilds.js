@@ -1,3 +1,6 @@
+/**
+ * Activity types
+ */
 export const activityTypes = {
     Competing: 5,
     Custom: 4,
@@ -9,7 +12,7 @@ export const activityTypes = {
 
 export const baseApiUrl = "https://discord.com/api/v10";
 
-export const errorCodes = [
+export const errorScopes = [
     "ClientIntentsError",
     "ClientPropsError",
     "ClientTokenError",

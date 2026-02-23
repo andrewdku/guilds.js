@@ -1,42 +1,76 @@
-import type { ClientEvents, ClientPresence, ClientProps, GatewayPayload } from "@/types";
+import type {
+    ClientEvents,
+    ClientPresenceProps,
+    ClientProps,
+    GatewayPayload,
+} from "@/types";
 import { EventHandler, GuildsError, Endpoints, RESTManager } from "@/classes";
 import { activityTypes, opCodes } from "@/utils";
 
+/**
+ * Class representing a Discord bot client
+ */
 export class Client<Ready extends boolean = false> extends EventHandler<ClientEvents> {
     #token: string;
     #heartbeatInterval?: NodeJS.Timeout;
     #sequenceNumber: number | null = null;
     #sessionId?: string;
     #intents: number;
-    #presence: ClientPresence = { platform: "desktop", status: "online", activities: [] };
+    #presence: ClientPresenceProps = {
+        platform: "desktop",
+        status: "online",
+        activities: [],
+    };
     #rest: RESTManager;
     #ready: boolean = false;
     #ws?: WebSocket;
 
+    /**
+     * The client's token
+     */
     public get token() {
         return this.#token;
     }
 
+    /**
+     * The client's intents as a number
+     */
     public get intents() {
         return this.#intents;
     }
 
+    /**
+     * The websocket heartbeat interval
+     */
     public get heartbeatInterval() {
         return this.#heartbeatInterval;
     }
 
+    /**
+     * The client's user presence
+     */
     public get presence() {
         return this.#presence;
     }
 
+    /**
+     * The client's REST manager
+     */
     public get rest() {
         return this.#rest;
     }
 
+    /**
+     * @returns Boolean representing whether the client is ready
+     */
     public isReady(): this is Client<true> {
         return this.#ready;
     }
 
+    /**
+     * Instantiate a new Client
+     * @param props Client configuration
+     */
     public constructor(props: ClientProps) {
         super();
 
@@ -76,6 +110,9 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
         return this;
     }
 
+    /**
+     * Start the connection to Discord's gateway
+     */
     public async connect(): Promise<Client<true>> {
         const res = await this.#rest.get(Endpoints.gatewayBot());
         const userRes = await this.#rest.get(Endpoints.user());
@@ -94,6 +131,9 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
         return this as Client<true>;
     }
 
+    /**
+     * Handle incoming gateway events
+     */
     #handleGatewayEvent(payload: GatewayPayload) {
         if (payload.s !== undefined && payload.s !== null) {
             this.#sequenceNumber = payload.s;
@@ -152,7 +192,11 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
         }
     }
 
-    public setPresence(presence: Partial<ClientPresence>) {
+    /**
+     * Update the client's user presence
+     * @returns
+     */
+    public setPresence(presence: Partial<ClientPresenceProps>) {
         this.#presence = { ...this.#presence, ...presence };
 
         if (this.#ws) {
@@ -178,7 +222,10 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
         return this;
     }
 
-    public async disconnect(): Promise<void> {
+    /**
+     * Destroy the connection to Discord's gateway
+     */
+    public disconnect(): void {
         if (this.#heartbeatInterval) {
             clearInterval(this.#heartbeatInterval);
         }
