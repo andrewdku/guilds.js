@@ -139,8 +139,6 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
         const res = await this.#rest.get(Endpoints.gatewayBot());
         const userRes = await this.#rest.get(Endpoints.user());
 
-        console.log(userRes);
-
         if (!res.ok || !userRes.ok || !res || !userRes) {
             throw new GuildsError("Failed to connect to Discord", "GatewayError");
         }
