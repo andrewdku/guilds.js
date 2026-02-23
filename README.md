@@ -36,7 +36,8 @@ const client = new Client({
     token: "bot token",
 
     // client intents (as a number)
-    intents: 0,
+    // example (guilds, guild messages, guild members):
+    intents: 515,
 });
 
 client.once("ready", () => {
