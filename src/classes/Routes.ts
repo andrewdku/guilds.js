@@ -5,7 +5,7 @@ export class Routes {
         return `${baseApiUrl}/gateway${bot ? "/bot" : ""}` as const;
     }
 
-    public static user(id: string = "@me") {
-        return `${baseApiUrl}/users/${id}` as const;
+    public static user(userId: string = "@me") {
+        return `${baseApiUrl}/users/${userId}` as const;
     }
 }
