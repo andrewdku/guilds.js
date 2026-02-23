@@ -1,7 +1,7 @@
 {
     "name": "guilds.js",
     "description": "Interact with Discord's API with ease",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "license": "Apache-2.0",
     "scripts": {
         "build": "tsdown",
@@ -28,7 +28,6 @@
         "dist",
         "LICENSE",
         "package.json",
-        "public/logo.png",
         "README.md"
     ],
     "keywords": [
