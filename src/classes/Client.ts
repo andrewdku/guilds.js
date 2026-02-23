@@ -5,7 +5,7 @@ import type {
     GatewayPayload,
 } from "@/types";
 import { EventHandler, GuildsError, Endpoints, RESTManager } from "@/classes";
-import { activityTypes, opCodes } from "@/utils";
+import { ActivityType, GatewayOpcodes } from "@/utils";
 
 /**
  * Class representing a Discord bot client
@@ -162,12 +162,12 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
         }
 
         switch (payload.op) {
-            case opCodes.Hello: {
+            case GatewayOpcodes.Hello: {
                 this.emit("debug", "Received Hello event");
                 this.#heartbeatInterval = setInterval(() => {
                     this.#ws?.send(
                         JSON.stringify({
-                            op: opCodes.Heartbeat,
+                            op: GatewayOpcodes.Heartbeat,
                             d: this.#sequenceNumber,
                         })
                     );
@@ -176,7 +176,7 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
                 this.emit("debug", "Identifying...");
                 this.#ws?.send(
                     JSON.stringify({
-                        op: opCodes.Identify,
+                        op: GatewayOpcodes.Identify,
                         d: {
                             token: this.#token,
                             intents: this.#intents,
@@ -200,7 +200,7 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
                 break;
             }
 
-            case opCodes.Dispatch: {
+            case GatewayOpcodes.Dispatch: {
                 if (payload.t !== "READY") {
                     break;
                 }
@@ -224,7 +224,7 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
         if (this.#ws) {
             this.#ws.send(
                 JSON.stringify({
-                    op: opCodes.PresenceUpdate,
+                    op: GatewayOpcodes.PresenceUpdate,
                     d: {
                         status: this.#presence.status,
                         since: null,
@@ -233,7 +233,7 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
                             ...a,
                             type:
                                 typeof a.type === "string"
-                                    ? activityTypes[a.type as keyof typeof activityTypes]
+                                    ? ActivityType[a.type as keyof typeof ActivityType]
                                     : a.type,
                         })),
                     },

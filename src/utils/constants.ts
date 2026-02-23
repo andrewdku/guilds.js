@@ -1,7 +1,7 @@
 /**
  * Activity types
  */
-export const activityTypes = {
+export const ActivityType = {
     Competing: 5,
     Custom: 4,
     Listening: 2,
@@ -12,7 +12,7 @@ export const activityTypes = {
 
 export const baseApiUrl = "https://discord.com/api/v10";
 
-export const errorScopes = [
+const errorScopes = [
     "ClientIntentsError",
     "ClientPropsError",
     "ClientTokenError",
@@ -21,7 +21,7 @@ export const errorScopes = [
     "WebSocketError",
 ] as const;
 
-export const opCodes = {
+export const GatewayOpcodes = {
     Dispatch: 0, // Receive
     Heartbeat: 1, // Send or Receive
     HeartbeatACK: 11, // Receive

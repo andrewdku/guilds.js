@@ -1,16 +1,16 @@
-import type { activityTypes, errorScopes, opCodes } from "@/utils";
+import type { ActivityType, GatewayOpcodes } from "@/utils";
 import type { Client } from "@/classes";
 
-export interface Activity {
+export interface UserActivity {
     name: string;
     state?: string;
-    type: ActivityType;
+    type: UserActivityType;
     url?: string;
 }
 
-export type ActivityType =
-    | keyof typeof activityTypes
-    | (typeof activityTypes)[keyof typeof activityTypes];
+export type UserActivityType =
+    | keyof typeof ActivityType
+    | (typeof ActivityType)[keyof typeof ActivityType];
 
 export type ClientEvents = {
     debug: [message: string];
@@ -19,7 +19,7 @@ export type ClientEvents = {
 };
 
 export interface ClientPresenceProps {
-    activities: Activity[];
+    activities: UserActivity[];
     platform: "desktop" | "mobile";
     status: UserStatus;
 }
@@ -30,13 +30,22 @@ export interface ClientProps {
     presence?: Partial<ClientPresenceProps>;
 }
 
+const errorScopes = [
+    "ClientIntentsError",
+    "ClientPropsError",
+    "ClientTokenError",
+    "DiscordAPIError",
+    "GatewayError",
+    "WebSocketError",
+] as const;
+
 export type ErrorScope = (typeof errorScopes)[keyof typeof errorScopes];
 
 /**
  * Discord gateway payload object
  */
 export interface GatewayPayload {
-    op: (typeof opCodes)[keyof typeof opCodes];
+    op: (typeof GatewayOpcodes)[keyof typeof GatewayOpcodes];
     d?: any;
     s?: number | null;
     t?: string | null;
