@@ -1,5 +1,5 @@
 {
-    "name": "guilds",
+    "name": "guilds.js",
     "description": "Interact with Discord's API with ease",
     "version": "0.0.1",
     "license": "Apache-2.0",
