@@ -40,4 +40,8 @@ export interface GatewayPayload {
     t?: string | null;
 }
 
+export type If<Condition extends boolean, Then, Else = never> = Condition extends true
+    ? Then
+    : Else;
+
 export type UserStatus = "online" | "idle" | "dnd" | "offline";
