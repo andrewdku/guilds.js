@@ -1,3 +1,4 @@
+import type * as DiscordAPI from "./api-types";
 import type { ActivityTypes, GatewayOpcodes } from "@/utils";
 import type { Client } from "@/classes";
 
@@ -55,3 +56,5 @@ export type If<Condition extends boolean, Then, Else = never> = Condition extend
 
 export type IntentsResolvable = number | number[];
 export type UserStatus = "online" | "idle" | "dnd" | "offline";
+
+export type { DiscordAPI };
