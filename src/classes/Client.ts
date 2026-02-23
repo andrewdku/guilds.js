@@ -36,23 +36,26 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
     public constructor(props: ClientProps) {
         super();
 
-        if (!props) {
-            throw new GuildsError("Props must be provided", "ClientPropsError");
+        if (!props || typeof props !== "object") {
+            throw new GuildsError(
+                "Invalid client props were provided",
+                "ClientPropsError"
+            );
         }
 
-        if (!props.token) {
-            throw new GuildsError("Token must be provided", "ClientTokenError");
+        if (!props.token || typeof props.token !== "string") {
+            throw new GuildsError("Invalid token was provided", "ClientTokenError");
         }
 
-        if (!props.intents) {
-            throw new GuildsError("Intents must be provided", "ClientIntentsError");
+        if (!props.intents || typeof props.intents !== "number") {
+            throw new GuildsError("Invalid intents were provided", "ClientIntentsError");
         }
 
-        this.#intents = props.intents;
         this.#token = props.token.trim().toLowerCase().startsWith("bot ")
             ? props.token
             : `Bot ${props.token}`;
 
+        this.#intents = props.intents;
         this.#api = new DiscordAPI(this.#token);
 
         return this;
