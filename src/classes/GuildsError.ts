@@ -1,4 +1,4 @@
-import type { ErrorScope } from "@/types";
+import type { ErrorScope } from "@/typings";
 
 /**
  * Class representing a library-related error

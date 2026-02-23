@@ -1,3 +1,3 @@
-export type * from "@/types";
+export type * from "@/typings";
 export * from "@/utils";
 export * from "@/classes";

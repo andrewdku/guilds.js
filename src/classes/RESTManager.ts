@@ -1,4 +1,4 @@
-import type { HTTPRequestMethod } from "@/types";
+import type { HTTPRequestMethod } from "@/typings";
 import { GuildsError } from "@/classes";
 
 /**

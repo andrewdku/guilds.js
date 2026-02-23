@@ -5,7 +5,7 @@ import type {
     ClientPresenceProps,
     ClientProps,
     GatewayPayload,
-} from "@/types";
+} from "@/typings";
 
 /**
  * Class representing a Discord bot client
