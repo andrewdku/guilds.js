@@ -1,7 +1,5 @@
 {
     "$schema": "https://json.schemastore.org/tsconfig",
-    "include": ["src"],
-    "exclude": ["dist", "node_modules", "test", "**/*.DS_Store*"],
     "compilerOptions": {
         "allowJs": true,
         "declaration": false,
@@ -11,7 +9,6 @@
         "moduleResolution": "bundler",
         "noEmit": true,
         "noUncheckedIndexedAccess": true,
-        "paths": { "@/*": ["./src/*"] },
         "removeComments": false,
         "resolveJsonModule": true,
         "skipLibCheck": true,

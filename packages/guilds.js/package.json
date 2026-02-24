@@ -1,0 +1,60 @@
+{
+    "name": "guilds.js",
+    "description": "Interact with Discord's API with ease",
+    "version": "0.0.4",
+    "license": "Apache-2.0",
+    "scripts": {
+        "build": "tsdown",
+        "format": "prettier --write . --config package.json --ignore-path .prettierignore",
+        "lint": "tsc --noEmit; prettier --check . --config package.json --ignore-path .prettierignore",
+        "prepublish": "tsdown"
+    },
+    "exports": {
+        "default": "./dist/index.cjs",
+        "import": "./dist/index.mjs",
+        "require": "./dist/index.cjs",
+        "types": "./dist/index.d.cts"
+    },
+    "main": "./dist/index.mjs",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.mts",
+    "type": "module",
+    "devDependencies": {
+        "@types/node": "^25.3.0",
+        "prettier": "^3.8.1",
+        "tsdown": "^0.20.3",
+        "typescript": "^5.9.3"
+    },
+    "files": [
+        "dist",
+        "LICENSE",
+        "package.json",
+        "README.md"
+    ],
+    "keywords": [
+        "api",
+        "discord",
+        "discord-bot",
+        "javascript",
+        "library",
+        "module",
+        "node",
+        "node-js",
+        "npm",
+        "pnpm",
+        "tsdown",
+        "typescript",
+        "websocket",
+        "ws"
+    ],
+    "engines": {
+        "node": ">=20"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/andrewdku/guilds.js"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}
