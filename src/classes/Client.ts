@@ -1,10 +1,11 @@
-import { EventHandler, GuildsError, Endpoints, RESTManager } from "@/classes";
+import { EventHandler, GuildsError, Endpoints, RESTManager, User } from "@/classes";
 import { ActivityTypes, GatewayOpcodes } from "@/utils";
 import type {
     ClientEvents,
     ClientPresenceProps,
     ClientProps,
     GatewayPayload,
+    If,
 } from "@/typings";
 
 /**
@@ -20,6 +21,7 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
     public rest: RESTManager;
     public intents: number;
     public ws?: WebSocket;
+    public user: If<Ready, User, null> = null!;
     public presence: ClientPresenceProps = {
         platform: "desktop",
         status: "online",
@@ -121,6 +123,7 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
             this.#handleGatewayEvent(JSON.parse(event.data.toString()));
         };
 
+        (this as Client<true>).user = new User(this as Client<true>, userRes.data)!;
         return this as Client<true>;
     }
 
