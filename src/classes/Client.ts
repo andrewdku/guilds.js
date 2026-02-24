@@ -1,5 +1,5 @@
-import { EventHandler, GuildsError, Endpoints, RESTManager, User } from "@/classes";
-import { ActivityTypes, GatewayOpcodes, parseIntents } from "@/utils";
+import { EventHandler, GuildsError, RESTManager, User } from "@/classes";
+import { ActivityTypes, Endpoints, GatewayOpcodes, parseIntents } from "@/utils";
 import type {
     ClientEvents,
     ClientPresenceProps,
