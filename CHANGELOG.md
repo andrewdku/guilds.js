@@ -16,7 +16,7 @@ This file includes the library's history and changes.
 - Renamed `DiscordAPI` to `RESTManager`
 - Renamed `Routes` to `Endpoints`
 - Separated `gateway` and `gatewayBot` endpoints
-- Turned Endpoints into an object rather than a static class
+- Turned `Endpoints` into an object rather than a static class
 
 ## [v0.0.3](https://github.com/andrewdku/guilds.js/releases/tag/v0.0.3) — 23 Feb 2026
 
