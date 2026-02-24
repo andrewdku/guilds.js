@@ -2,16 +2,10 @@ import type * as DiscordAPI from "./api-types";
 import type { ActivityTypes, GatewayOpcodes } from "@/utils";
 import type { Client } from "@/classes";
 
-export interface UserActivity {
-    name: string;
-    state?: string;
-    type: UserActivityType;
-    url?: string;
+export interface AvatarURLProps {
+    size: 128 | 256 | 512 | 1024 | 2048 | 4096;
+    format?: "webp" | "png" | "jpg" | "gif";
 }
-
-export type UserActivityType =
-    | keyof typeof ActivityTypes
-    | (typeof ActivityTypes)[keyof typeof ActivityTypes];
 
 export type ClientEvents = {
     debug: [message: string];
@@ -55,6 +49,17 @@ export type If<Condition extends boolean, Then, Else = never> = Condition extend
     : Else;
 
 export type IntentsResolvable = number | number[];
+export interface UserActivity {
+    name: string;
+    state?: string;
+    type: UserActivityType;
+    url?: string;
+}
+
+export type UserActivityType =
+    | keyof typeof ActivityTypes
+    | (typeof ActivityTypes)[keyof typeof ActivityTypes];
+
 export type UserStatus = "online" | "idle" | "dnd" | "offline";
 
 export type { DiscordAPI };
