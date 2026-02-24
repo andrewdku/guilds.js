@@ -1,10 +1,10 @@
-<p align="center">
+<div align="center">
   <img
     alt="guilds.js Logo"
     width="85"
-    src="https://cdn.discordapp.com/attachments/1025091872198250597/1475481054004646100/guildslogo1.png?ex=699da450&is=699c52d0&hm=57ded16ddbafe1b094a44e78b1ae5ea2e3c647bd2b830c44354b6e11e6ecf0c5&"
+    src="https://cdn.discordapp.com/attachments/1025091872198250597/1475938039095103669/guilds.js.png?ex=699f4dea&is=699dfc6a&hm=a52d790f5cfa4820e4171126ed454f47ad32f94f5182d781ae08304bb2cdb77e&"
   />
-</p>
+</div>
 
 <div align="center">
   <a href="https://github.com/andrewdku/guilds.js">GitHub</a> | 
@@ -57,4 +57,4 @@ client.connect();
 
 # License
 
-guilds.js is licensed under the [Apache 2.0 license](LICENSE).
+Licensed under the [Apache License 2.0](LICENSE).
