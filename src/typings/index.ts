@@ -35,9 +35,10 @@ const errorScopes = [
 ] as const;
 
 export type ErrorScope = (typeof errorScopes)[keyof typeof errorScopes];
+export type GatewayOpcode = (typeof GatewayOpcodes)[keyof typeof GatewayOpcodes];
 
 export interface GatewayPayload {
-    op: (typeof GatewayOpcodes)[keyof typeof GatewayOpcodes];
+    op: GatewayOpcode;
     d?: any;
     s?: number | null;
     t?: string | null;
@@ -49,6 +50,7 @@ export type If<Condition extends boolean, Then, Else = never> = Condition extend
     : Else;
 
 export type IntentsResolvable = number | number[];
+
 export interface UserActivity {
     name: string;
     state?: string;
