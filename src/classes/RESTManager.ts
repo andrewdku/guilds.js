@@ -1,9 +1,7 @@
 import type { HTTPRequestMethod } from "@/typings";
 import { GuildsError } from "@/classes";
 
-/**
- * Class representing a Discord API manager
- */
+/** Class representing a Discord REST API manager */
 export class RESTManager {
     #token: string;
 

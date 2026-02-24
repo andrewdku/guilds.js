@@ -5,23 +5,37 @@ import type {
     ClientPresenceProps,
     ClientProps,
     GatewayPayload,
-    If,
 } from "@/typings";
 
-/**
- * Class representing a Discord bot client
- */
+/** Class representing a Discord client */
 export class Client extends EventHandler<ClientEvents> {
     #token: string;
 
+    /** Gateway heartbeat inteval */
     public heartbeatInterval?: NodeJS.Timeout;
+
+    /** Last received sequence number */
     public sequenceNumber: number | null = null;
+
+    /** Gateway session ID */
     public sessionId?: string;
+
+    /** REST manager instance to handle API calls */
     public rest: RESTManager;
+
+    /** Client intents bitfield */
     public intents: number;
+
+    /** Whether the client is ready */
     public ready: boolean = false;
+
+    /** WebSocket connection */
     public ws?: WebSocket;
+
+    /** Client user, or null if not ready */
     public user: User | null = null!;
+
+    /** Current presence information */
     public presence: ClientPresenceProps = {
         platform: "desktop",
         status: "online",
@@ -30,7 +44,7 @@ export class Client extends EventHandler<ClientEvents> {
 
     /**
      * Instantiate a new Client
-     * @param props Client configuration
+     * @param props Client options
      */
     public constructor(props: ClientProps) {
         super();
@@ -93,16 +107,12 @@ export class Client extends EventHandler<ClientEvents> {
         return this;
     }
 
-    /**
-     * The client's token
-     */
+    /** The client's token */
     public get token() {
         return this.#token;
     }
 
-    /**
-     * Start the connection to Discord's gateway
-     */
+    /** Start the connection to Discord's gateway */
     public async connect(): Promise<Client> {
         const res = await this.rest.get(Endpoints.gatewayBot());
         const userRes = await this.rest.get(Endpoints.user());
@@ -119,9 +129,7 @@ export class Client extends EventHandler<ClientEvents> {
         return this;
     }
 
-    /**
-     * Initialize the WebSocket
-     */
+    /** Initialize the WebSocket */
     #connectWebSocket(url: string) {
         if (this.destroyed) {
             return;
@@ -146,9 +154,7 @@ export class Client extends EventHandler<ClientEvents> {
     public destroyed: boolean = false;
     public lastHeartbeatAck: boolean = true;
 
-    /**
-     * Handle incoming gateway events
-     */
+    /** Handle incoming gateway events */
     #handleGatewayEvent(payload: GatewayPayload) {
         if (payload.s !== undefined && payload.s !== null) {
             this.sequenceNumber = payload.s;
@@ -242,10 +248,7 @@ export class Client extends EventHandler<ClientEvents> {
         }
     }
 
-    /**
-     * Update the client's user presence
-     * @returns
-     */
+    /** Update the client's user presence */
     public setPresence(presence: Partial<ClientPresenceProps>) {
         this.presence = { ...this.presence, ...presence };
 
@@ -272,9 +275,7 @@ export class Client extends EventHandler<ClientEvents> {
         return this;
     }
 
-    /**
-     * Destroy the connection to Discord's gateway
-     */
+    /** Destroy the connection to Discord's gateway */
     public disconnect(): void {
         if (this.heartbeatInterval) clearInterval(this.heartbeatInterval);
         this.ws?.close(1000, "Client disconnected");

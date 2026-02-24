@@ -1,6 +1,4 @@
-/**
- * Class representing a type-safe EventEmitter
- */
+/** Class representing a type-safe EventEmitter */
 export class EventHandler<Events extends Record<string, any[]>> {
     #listeners: {
         [K in keyof Events]?: Array<(...args: Events[K]) => any>;

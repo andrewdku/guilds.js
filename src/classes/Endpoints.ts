@@ -1,8 +1,6 @@
 import { baseApiUrl } from "@/utils";
 
-/**
- * Class representing Discord's API v10 endpoints
- */
+/** Class representing Discord's API v10 endpoints */
 export class Endpoints {
     /**
      * - GET `/gateway`
