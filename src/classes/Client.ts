@@ -107,18 +107,44 @@ export class Client extends EventHandler<ClientEvents> {
         const res = await this.rest.get(Endpoints.gatewayBot());
         const userRes = await this.rest.get(Endpoints.user());
 
-        if (!res.ok || !userRes.ok || !res || !userRes) {
-            throw new GuildsError("Failed to connect to Discord", "GatewayError");
+        if (!res.ok || !userRes.ok) {
+            throw new GuildsError("Failed to connect to Discord", "DiscordAPIError");
         }
 
-        this.ws = new WebSocket(`${res.data.url}?v=10&encoding=json`);
+        this.user = new User(this, userRes.data)!;
+        this.lastHeartbeatAck = true;
+        this.destroyed = false;
+        this.#connectWebSocket(res.data.url);
+
+        return this;
+    }
+
+    /**
+     * Initialize the WebSocket
+     */
+    #connectWebSocket(url: string) {
+        if (this.destroyed) {
+            return;
+        }
+
+        this.ws = new WebSocket(`${url}?v=10&encoding=json`);
+        this.ws.onopen = () => this.emit("debug", "WebSocket connected");
+        this.ws.onerror = (error) => this.emit("error", `WebSocket error: ${error}`);
         this.ws.onmessage = (event) => {
             this.#handleGatewayEvent(JSON.parse(event.data.toString()));
         };
 
-        this.user = new User(this, userRes.data)!;
-        return this;
+        this.ws.onclose = (event) => {
+            this.emit("debug", `WebSocket closed: ${event.reason} (${event.code})`);
+
+            if (!this.destroyed) {
+                setTimeout(() => this.#connectWebSocket(url), 3000);
+            }
+        };
     }
+
+    public destroyed: boolean = false;
+    public lastHeartbeatAck: boolean = true;
 
     /**
      * Handle incoming gateway events
@@ -131,7 +157,20 @@ export class Client extends EventHandler<ClientEvents> {
         switch (payload.op) {
             case GatewayOpcodes.Hello: {
                 this.emit("debug", "Received Hello event");
+
+                if (this.heartbeatInterval) {
+                    clearInterval(this.heartbeatInterval);
+                }
+
+                this.lastHeartbeatAck = true;
                 this.heartbeatInterval = setInterval(() => {
+                    if (!this.lastHeartbeatAck) {
+                        this.emit("debug", "Heartbeat ACK failed, reconnecting...");
+                        this.ws?.close(4000, "Heartbeat failed");
+                        return;
+                    }
+
+                    this.lastHeartbeatAck = false;
                     this.ws?.send(
                         JSON.stringify({
                             op: GatewayOpcodes.Heartbeat,
@@ -140,30 +179,51 @@ export class Client extends EventHandler<ClientEvents> {
                     );
                 }, payload.d.heartbeat_interval);
 
-                this.emit("debug", "Identifying...");
-                this.ws?.send(
-                    JSON.stringify({
-                        op: GatewayOpcodes.Identify,
-                        d: {
-                            token: this.#token,
-                            intents: this.intents,
-                            presence: this.presence,
-                            properties:
-                                this.presence.platform === "desktop"
-                                    ? {
-                                          $os: "linux",
-                                          $browser: "guilds.js",
-                                          $device: "guilds.js",
-                                      }
-                                    : {
-                                          $os: "Discord Android",
-                                          $browser: "Discord Android",
-                                          $device: "Discord Android",
-                                      },
-                        },
-                    })
-                );
+                if (this.sessionId) {
+                    this.ws?.send(
+                        JSON.stringify({
+                            op: GatewayOpcodes.Resume,
+                            d: {
+                                token: this.#token,
+                                session_id: this.sessionId,
+                                seq: this.sequenceNumber,
+                            },
+                        })
+                    );
 
+                    this.emit("debug", "Resuming  session...");
+                } else {
+                    this.ws?.send(
+                        JSON.stringify({
+                            op: GatewayOpcodes.Identify,
+                            d: {
+                                token: this.#token,
+                                intents: this.intents,
+                                presence: this.presence,
+                                properties:
+                                    this.presence.platform === "desktop"
+                                        ? {
+                                              $os: "linux",
+                                              $browser: "guilds.js",
+                                              $device: "guilds.js",
+                                          }
+                                        : {
+                                              $os: "Discord Android",
+                                              $browser: "Discord Android",
+                                              $device: "Discord Android",
+                                          },
+                            },
+                        })
+                    );
+
+                    this.emit("debug", "Identifying...");
+                }
+
+                break;
+            }
+
+            case GatewayOpcodes.HeartbeatACK: {
+                this.lastHeartbeatAck = true;
                 break;
             }
 
@@ -216,15 +276,8 @@ export class Client extends EventHandler<ClientEvents> {
      * Destroy the connection to Discord's gateway
      */
     public disconnect(): void {
-        if (this.heartbeatInterval) {
-            clearInterval(this.heartbeatInterval);
-        }
-
-        if (this.ws) {
-            this.ws.close(1000, "Client disconnected");
-            this.ws = undefined;
-        }
-
-        return;
+        if (this.heartbeatInterval) clearInterval(this.heartbeatInterval);
+        this.ws?.close(1000, "Client disconnected");
+        this.ws = undefined;
     }
 }
