@@ -16,7 +16,7 @@ export type UserActivityType =
 export type ClientEvents = {
     debug: [message: string];
     error: [error: any];
-    ready: [readyClient: Client<true>];
+    ready: [client: Client];
 };
 
 export interface ClientPresenceProps {

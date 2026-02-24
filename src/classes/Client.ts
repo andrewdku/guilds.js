@@ -11,8 +11,7 @@ import type {
 /**
  * Class representing a Discord bot client
  */
-export class Client<Ready extends boolean = false> extends EventHandler<ClientEvents> {
-    #ready: boolean = false;
+export class Client extends EventHandler<ClientEvents> {
     #token: string;
 
     public heartbeatInterval?: NodeJS.Timeout;
@@ -20,8 +19,9 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
     public sessionId?: string;
     public rest: RESTManager;
     public intents: number;
+    public ready: boolean = false;
     public ws?: WebSocket;
-    public user: If<Ready, User, null> = null!;
+    public user: User | null = null!;
     public presence: ClientPresenceProps = {
         platform: "desktop",
         status: "online",
@@ -101,16 +101,9 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
     }
 
     /**
-     * @returns Boolean representing whether the client is ready
-     */
-    public isReady(): this is Client<true> {
-        return this.#ready;
-    }
-
-    /**
      * Start the connection to Discord's gateway
      */
-    public async connect(): Promise<Client<true>> {
+    public async connect(): Promise<Client> {
         const res = await this.rest.get(Endpoints.gatewayBot());
         const userRes = await this.rest.get(Endpoints.user());
 
@@ -123,8 +116,8 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
             this.#handleGatewayEvent(JSON.parse(event.data.toString()));
         };
 
-        (this as Client<true>).user = new User(this as Client<true>, userRes.data)!;
-        return this as Client<true>;
+        this.user = new User(this, userRes.data)!;
+        return this;
     }
 
     /**
@@ -180,9 +173,9 @@ export class Client<Ready extends boolean = false> extends EventHandler<ClientEv
                 }
 
                 this.sessionId = payload.d.session_id;
-                this.#ready = true;
+                this.ready = true;
                 this.emit("debug", "Received Dispatch (Ready) event");
-                this.emit("ready", this as Client<true>);
+                this.emit("ready", this);
 
                 break;
             }
