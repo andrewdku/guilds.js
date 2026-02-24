@@ -4,7 +4,6 @@
     "version": "0.0.4",
     "license": "Apache-2.0",
     "scripts": {
-        "docs:build": "typedoc",
         "build": "tsdown",
         "format": "prettier --write . --config package.json --ignore-path .prettierignore",
         "lint": "tsc --noEmit; prettier --check . --config package.json --ignore-path .prettierignore",
@@ -24,7 +23,6 @@
         "@types/node": "^25.3.0",
         "prettier": "^3.8.1",
         "tsdown": "^0.20.3",
-        "typedoc": "^0.28.17",
         "typescript": "^5.9.3"
     },
     "files": [

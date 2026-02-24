@@ -5,5 +5,4 @@
 **/*.pem*
 **/*test*
 dist
-docs
 node_modules
