@@ -1,5 +1,5 @@
 import { EventHandler, GuildsError, Endpoints, RESTManager, User } from "@/classes";
-import { ActivityTypes, GatewayOpcodes } from "@/utils";
+import { ActivityTypes, GatewayOpcodes, parseIntents } from "@/utils";
 import type {
     ClientEvents,
     ClientPresenceProps,
@@ -81,28 +81,7 @@ export class Client extends EventHandler<ClientEvents> {
             : `Bot ${props.token}`;
 
         this.rest = new RESTManager(this.#token);
-
-        if (Array.isArray(props.intents)) {
-            let intents = props.intents as number[];
-            let parsedIntents: number = 0;
-
-            for (const intent of intents) {
-                if (typeof intent !== "number") {
-                    throw new GuildsError(
-                        "Invalid intents provided",
-                        "ClientIntentsError"
-                    );
-                }
-
-                parsedIntents += intent;
-            }
-
-            this.intents = parsedIntents;
-        } else if (typeof props.intents === "number") {
-            this.intents = props.intents;
-        } else {
-            throw new GuildsError("Invalid intents provided", "ClientIntentsError");
-        }
+        this.intents = parseIntents(props.intents);
 
         return this;
     }

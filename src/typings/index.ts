@@ -1,5 +1,5 @@
 import type * as DiscordAPI from "./api-types";
-import type { ActivityTypes, GatewayOpcodes } from "@/utils";
+import type { ActivityTypes, GatewayIntents, GatewayOpcodes } from "@/utils";
 import type { Client } from "@/classes";
 
 export interface AvatarURLProps {
@@ -35,6 +35,10 @@ const errorScopes = [
 ] as const;
 
 export type ErrorScope = (typeof errorScopes)[keyof typeof errorScopes];
+export type GatewayIntent =
+    | keyof typeof GatewayIntents
+    | (typeof GatewayIntents)[keyof typeof GatewayIntents];
+
 export type GatewayOpcode = (typeof GatewayOpcodes)[keyof typeof GatewayOpcodes];
 
 export interface GatewayPayload {
@@ -49,7 +53,7 @@ export type If<Condition extends boolean, Then, Else = never> = Condition extend
     ? Then
     : Else;
 
-export type IntentsResolvable = number | number[];
+export type IntentsResolvable = number | number[] | GatewayIntent[];
 
 export interface UserActivity {
     name: string;

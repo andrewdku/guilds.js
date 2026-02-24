@@ -29,15 +29,18 @@ bun add guilds.js
 ## Example
 
 ```js
-import { Client } from "guilds.js";
+import { Client, GatewayIntents } from "guilds.js";
 
 const client = new Client({
     // https://discord.com/developers/applications
-    token: "bot token",
+    token: "TOKEN",
 
-    // client intents (as a number)
-    // example (guilds, guild messages, guild members):
-    intents: 515,
+    // client intents
+    intents: [
+        GatewayIntents.Guilds,
+        GatewayIntents.GuildMembers,
+        GatewayIntents.GuildMessages,
+    ],
 });
 
 client.once("ready", () => {
