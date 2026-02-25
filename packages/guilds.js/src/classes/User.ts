@@ -7,8 +7,6 @@ import { colorIntToHex } from "@/utils";
  * @see https://docs.discord.com/developers/resources/user
  */
 export class User {
-    #client: Client;
-
     /** The user's banner color as a color integer */
     public accentColor?: number;
 
@@ -20,6 +18,9 @@ export class User {
 
     /** Whether the user is an application (bot) */
     public bot: boolean = false;
+
+    /** The client associated with this user */
+    public client: Client;
 
     /** The user's discriminator, or "0" if they have none */
     public discriminator: string = "0";
@@ -53,7 +54,7 @@ export class User {
             throw new GuildsError("Invalid client provided", "DiscordAPIError");
         }
 
-        this.#client = client;
+        this.client = client;
         this.accentColor = data.accent_color;
         this.accentColorHex = colorIntToHex(data.accent_color || null) || null;
         this.bio = (data as any).bio ?? null;
@@ -69,11 +70,6 @@ export class User {
         this.verified = data.verified;
 
         return this;
-    }
-
-    /** The client associated with this user */
-    public get client() {
-        return this.#client;
     }
 
     /** Get the user's avatar as an image URL */
