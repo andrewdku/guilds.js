@@ -26,7 +26,17 @@
         "singleQuote": false,
         "tabWidth": 4,
         "trailingComma": "es5",
-        "useTabs": false
+        "useTabs": false,
+        "overrides": [
+            {
+                "files": "*.mdx",
+                "options": {
+                    "printWidth": 999,
+                    "proseWrap": "preserve",
+                    "embeddedLanguageFormatting": "off"
+                }
+            }
+        ]
     },
     "packageManager": "pnpm@10.29.1",
     "engines": {
