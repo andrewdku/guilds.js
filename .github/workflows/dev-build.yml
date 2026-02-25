@@ -13,7 +13,7 @@ jobs:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
               with:
-                  node-version: 20
+                  node-version: 24
 
             - run: corepack enable
             - run: pnpm install --frozen-lockfile
@@ -47,7 +47,7 @@ jobs:
               working-directory: packages/guilds.js
               run: |
                   BASE_VERSION=$(node -p "require('./package.json').version")
-                  DATE=$(date -u +%Y%m%d)
+                  DATE=$(date -u +%Y%m%d%H%M)
                   DEV_VERSION="${BASE_VERSION}-dev.${DATE}"
                   echo "DEV_VERSION=$DEV_VERSION" >> $GITHUB_ENV
                   pnpm version "$DEV_VERSION" --no-git-tag-version
