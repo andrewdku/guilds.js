@@ -1,0 +1,65 @@
+name: Publish Development Build
+
+on:
+    schedule:
+        - cron: "0 0 * * *"
+    workflow_dispatch:
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  version: "10.15.0"
+
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 24
+                  registry-url: https://registry.npmjs.org/
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile --shamefully-hoist
+
+            - name: Generate development version
+              id: version
+              run: |
+                  DEV_VERSION=$(node -p "require('./packages/guilds.js/package.json').version + '-dev.' + new Date().toISOString().replace(/[-T:]/g,'').slice(0,12)")
+                  echo "DEV_VERSION=$DEV_VERSION" >> $GITHUB_ENV
+                  echo "DEV_VERSION=$DEV_VERSION" >> $GITHUB_OUTPUT
+                  node -e "
+                    const fs = require('node:fs');
+                    const pkgPath = './packages/guilds.js/package.json';
+                    const pkg = require(pkgPath);
+                    pkg.version = '$DEV_VERSION';
+                    fs.writeFileSync(pkgPath, JSON.stringify(pkg,null,2));
+                  "
+
+            - name: Transpile package
+              run: pnpm build --filter guilds.js
+
+            - name: Publish package
+              working-directory: packages/guilds.js
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+              run: pnpm publish --tag dev --access public
+
+            - name: Deprecate previous development version
+              working-directory: packages/guilds.js
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+                  NEW_VERSION: ${{ env.DEV_VERSION }}
+              run: |
+                  PREV_VERSION=$(npm view $(node -p "require('./package.json').name") versions --json \
+                    | node -e "
+                        const versions = JSON.parse(require('node:fs').readFileSync(0,'utf8'));
+                        const devs = versions.filter(v => v.includes('-dev.'));
+                        const prev = devs.filter(v => v !== process.env.NEW_VERSION).pop();
+                        if(prev) console.log(prev);
+                      ")
+                  [ -n "$PREV_VERSION" ] && pnpm deprecate $(node -p "require('./package.json').name")@"$PREV_VERSION" "outdated dev build"
