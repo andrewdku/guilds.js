@@ -5,8 +5,7 @@ import starlight from "@astrojs/starlight";
 import rapideTheme from "starlight-theme-rapide";
 
 export default defineConfig({
-    site: "https://andrewdku.github.io/guilds.js/",
-    base: "/guilds.js/",
+    site: "https://guilds.js.org",
     integrations: [
         starlight({
             title: "guilds.js",

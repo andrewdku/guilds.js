@@ -50,6 +50,7 @@
     "engines": {
         "node": ">=20"
     },
+    "homepage": "https://guilds.js.org",
     "repository": {
         "type": "git",
         "url": "https://github.com/andrewdku/guilds.js"
