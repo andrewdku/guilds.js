@@ -9,7 +9,6 @@ export default defineConfig({
         starlight({
             title: "guilds.js",
             favicon: "./src/assets/logo-round.png",
-            /* logo: { src: "./src/assets/logo-wide-round.png", replacesTitle: true }, */
             plugins: [
                 starlightTypeDoc({
                     entryPoints: ["../packages/guilds.js/src/index.ts"],
@@ -26,8 +25,8 @@ export default defineConfig({
                 },
             ],
             sidebar: [
-                { label: "Guide", autogenerate: { directory: "guide" } },
                 typeDocSidebarGroup,
+                { label: "Guide", autogenerate: { directory: "guide" } },
             ],
         }),
     ],
