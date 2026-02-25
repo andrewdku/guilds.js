@@ -21,7 +21,10 @@ export default defineConfig({
                     href: "https://github.com/andrewdku/guilds.js",
                 },
             ],
-            sidebar: [typeDocSidebarGroup],
+            sidebar: [
+                { label: "Guide", autogenerate: { directory: "guide" } },
+                typeDocSidebarGroup,
+            ],
         }),
     ],
 });

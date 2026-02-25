@@ -8,8 +8,7 @@ export const collections = {
         schema: docsSchema({
             extend: z.object({
                 banner: z.object({ content: z.string() }).default({
-                    content:
-                        "This documentation is auto-generated based off of the main branch.",
+                    content: "API reference is auto-generated from the main branch.",
                 }),
             }),
         }),

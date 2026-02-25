@@ -15,6 +15,7 @@
 build
 dist
 docs/src/content/docs/api
+docs/src/content/docs/docs
 node_modules
 npm-debug.log*
 out
