@@ -3,22 +3,29 @@ import { baseApiUrl } from "@/utils";
 /** Discord's API v10 endpoints */
 export const Endpoints = {
     /**
-     * - GET `/gateway`
+     * @GET `/gateway`
      */
     gateway() {
         return `${baseApiUrl}/gateway` as const;
     },
 
     /**
-     * - GET `/gateway/bot`
-     * - POST `/gateway/bot`
+     * @GET `/gateway/bot`
+     * @POST `/gateway/bot`
      */
     gatewayBot() {
         return `${Endpoints.gateway()}/bot` as const;
     },
 
     /**
-     * - GET `/users/{userId}`
+     * @GET `/guilds/{guildId}`
+     */
+    guildPReview(guildId: string) {
+        return `${baseApiUrl}/guilds/${guildId}/preview` as const;
+    },
+
+    /**
+     * @GET `/users/{userId}`
      * @param userId User ID (default: "@me")
      */
     user(userId: string = "@me") {
