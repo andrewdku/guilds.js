@@ -17,6 +17,7 @@ export default defineConfig({
                 }),
                 rapideTheme(),
             ],
+            expressiveCode: { themes: ["vitesse-dark"] },
             social: [
                 {
                     icon: "github",
