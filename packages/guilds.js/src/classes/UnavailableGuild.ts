@@ -11,7 +11,7 @@ export class UnavailableGuild {
     public id: string;
     public unavailable: boolean = true;
 
-    public constructor(client: Client, data: DiscordAPI.UnavailableGuild) {
+    public constructor(client: Client, data: DiscordAPI.APIUnavailableGuild) {
         if (!client || !(client instanceof Client)) {
             throw new GuildsError("Invalid client provided", "DiscordAPIError");
         }

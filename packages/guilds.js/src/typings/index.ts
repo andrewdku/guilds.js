@@ -1,4 +1,3 @@
-import type * as DiscordAPI from "./api-types";
 import type { ActivityTypes, GatewayIntents, GatewayOpcodes } from "@/utils";
 import type { Client } from "@/classes";
 
@@ -68,4 +67,4 @@ export type UserActivityType =
 
 export type UserStatus = "online" | "idle" | "dnd" | "offline";
 
-export type { DiscordAPI };
+export type { DiscordAPI } from "./api-types";

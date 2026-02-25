@@ -38,7 +38,7 @@ export class User {
     public mfaEnabled?: boolean;
 
     /** The data from Discord's API provided as-is */
-    public rawData: DiscordAPI.User;
+    public rawData: DiscordAPI.APIUser;
 
     /** Whether the user is a Discord system account */
     public system: boolean = false;
@@ -49,19 +49,19 @@ export class User {
     /** Whether the user's email is verified (user clients only) */
     public verified?: boolean;
 
-    public constructor(client: Client, data: DiscordAPI.User) {
+    public constructor(client: Client, data: DiscordAPI.APIUser) {
         if (!client || !(client instanceof Client)) {
             throw new GuildsError("Invalid client provided", "DiscordAPIError");
         }
 
-        this.accentColor = data.accent_color;
+        this.accentColor = data.accent_color ?? undefined;
         this.accentColorHex = colorIntToHex(data.accent_color || null) || null;
         this.bio = (data as any).bio ?? null;
         this.bot = data.bot || false;
         this.client = client;
         this.discriminator = data.discriminator || "0";
-        this.email = data.email;
-        this.displayName = data.global_name;
+        this.email = data.email ?? undefined;
+        this.displayName = data.global_name ?? undefined;
         this.id = data.id;
         this.mfaEnabled = data.mfa_enabled;
         this.rawData = data;
