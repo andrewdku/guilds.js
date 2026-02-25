@@ -13,6 +13,6 @@
         },
         "lint": {
             "dependsOn": ["^lint"]
-        },
+        }
     }
 }

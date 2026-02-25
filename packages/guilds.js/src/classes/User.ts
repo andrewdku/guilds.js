@@ -54,11 +54,11 @@ export class User {
             throw new GuildsError("Invalid client provided", "DiscordAPIError");
         }
 
-        this.client = client;
         this.accentColor = data.accent_color;
         this.accentColorHex = colorIntToHex(data.accent_color || null) || null;
         this.bio = (data as any).bio ?? null;
         this.bot = data.bot || false;
+        this.client = client;
         this.discriminator = data.discriminator || "0";
         this.email = data.email;
         this.displayName = data.global_name;
