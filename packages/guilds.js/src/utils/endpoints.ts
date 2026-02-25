@@ -27,9 +27,9 @@ export const Endpoints = {
     },
 
     /**
-     * - GET `/guilds/{guildId}`
+     * - GET `/guilds/{guildId}/preview`
      */
-    guildPReview(guildId: string) {
+    guildPreview(guildId: string) {
         return `${baseApiUrl}/guilds/${guildId}/preview` as const;
     },
 
