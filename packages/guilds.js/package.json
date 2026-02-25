@@ -55,6 +55,7 @@
         "type": "git",
         "url": "https://github.com/andrewdku/guilds.js"
     },
+    "private": false,
     "publishConfig": {
         "access": "public"
     },

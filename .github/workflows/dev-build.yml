@@ -1,0 +1,85 @@
+name: Publish Development Build
+
+on:
+    schedule:
+        - cron: "0 0 * * *"
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+
+            - run: corepack enable
+            - run: pnpm install --frozen-lockfile
+            - run: pnpm build --filter guilds.js
+
+    publish:
+        runs-on: ubuntu-latest
+        needs: build
+
+        permissions:
+            contents: read
+            id-token: write
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 24
+                  registry-url: https://registry.npmjs.org/
+
+            - name: Enable Corepack
+              run: corepack enable
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Generate version string
+              working-directory: packages/guilds.js
+              run: |
+                  BASE_VERSION=$(node -p "require('./package.json').version")
+                  DATE=$(date -u +%Y%m%d)
+                  DEV_VERSION="${BASE_VERSION}-dev.${DATE}"
+                  echo "DEV_VERSION=$DEV_VERSION" >> $GITHUB_ENV
+                  pnpm version "$DEV_VERSION" --no-git-tag-version
+
+            - name: Publish to npm
+              working-directory: packages/guilds.js
+              run: |
+                  PKG_NAME=$(node -p "require('./package.json').name")
+                  echo "PKG_NAME=$PKG_NAME" >> $GITHUB_ENV
+                  pnpm publish --tag dev --access public
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            - name: Deprecate previous development version
+              working-directory: packages/guilds.js
+              run: |
+                  PKG_NAME="$PKG_NAME"
+                  NEW_VERSION="$DEV_VERSION"
+
+                  PREV_VERSION=$(npm view "$PKG_NAME" versions --json \
+                    | node -e "
+                        const versions = JSON.parse(require('fs').readFileSync(0,'utf8'));
+                        const dev = versions.filter(v => v.includes('-dev.'));
+                        const prev = dev.filter(v => v !== process.env.NEW_VERSION).pop();
+                        if (prev) console.log(prev);
+                      ")
+
+                  if [ -z "$PREV_VERSION" ]; then
+                    exit 0
+                  fi
+
+                  pnpm deprecate "$PKG_NAME@$PREV_VERSION" "outdated dev build"
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+                  NEW_VERSION: ${{ env.DEV_VERSION }}
