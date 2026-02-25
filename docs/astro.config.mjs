@@ -8,6 +8,7 @@ export default defineConfig({
         starlight({
             title: "guilds.js",
             favicon: "./src/assets/logo-round.png",
+            logo: { src: "./src/assets/logo-wide-round.png", replacesTitle: true },
             plugins: [
                 starlightTypeDoc({
                     entryPoints: ["../packages/guilds.js/src/index.ts"],
