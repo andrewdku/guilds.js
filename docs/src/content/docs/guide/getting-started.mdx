@@ -3,4 +3,132 @@ title: Getting Started
 prev: false
 ---
 
-Coming soon...
+import { Tabs, TabItem, Aside } from "@astrojs/starlight/components";
+
+## Creating the bot user
+
+Head to the [Discord Developer Portal](https://discord.com/developers/applications) and press on "New Application". Give it whatever name you'd like, then press "Create". You should then be redirected to your application's page. The application is basically like a "container" for your bot.
+
+Head to the "Installation" tab in the sidebar, then disable "User Install" and enable "Guild Install" to ensure the bot can just be added to servers. Make sure to set "Install Link" to "None".
+
+In the "Bot" section of the sidebar, then disable "Public Bot" and enable the following intents: "Server Members Intent" and "Message Content Intent". You can learn more about privileged intents [here](https://support-dev.discord.com/hc/en-us/articles/6207308062871-What-are-Privileged-Intents).
+
+### Inviting the bot
+
+Head to the "OAuth2" section in the sidebar and scroll down to "OAuth2 URL Generator". Select `bot` and `applications.commands`, then select the `Administrator` permission so that the bot doesn't run into permission issues — you can update these permissions later based on what your bot's main functions are.
+
+### Bot token
+
+<Aside type="danger">
+    Never share your token with anyone, or publicly in repositories by accident for
+    example.
+</Aside>
+
+Your bot's token allows you to access your bot and perform actions on its behalf. While in the "Bot" section, press "Reset Token" and confirm the action to generate a new token. Copy this token, since it won't be revealed to you again unless you reset it once more.
+
+## Coding our bot
+
+Before writing our bot's code, make sure you have Node.js installed. Install the latest LTS ("long term support") version of Node.js from the [official website](https://nodejs.org). This should also install npm, which we'll use to manage packages.
+
+You can check whether Node.js and npm are installed by running `node -v` and `npm -v` respectively. guilds.js requires Node.js version 20 or higher.
+
+Then, create a new directory and open it in your code editor (such as [Visual Studio Code](https://code.visualstudio.com)). This will be our bot's main folder.
+
+Initialize a new npm project in that folder:
+
+{/* prettier-ignore */}
+<Aside type="tip">
+    - If you're using Visual Studio Code, press `Ctrl` + `\` to create a new terminal.
+    - You can stop your bot by pressing `Ctrl` + `C` in the terminal. Make sure you don't have multiple terminal processes running at once!
+</Aside>
+
+```bash
+npm init -y
+```
+
+Afterwards, we can install guilds.js (and dotenv for environment variables):
+
+<Aside type="note">
+    This guide uses dotenv for clarity. If you don't wish to install dotenv, you can
+    simply pass an argument like `--env-file=.env` when running your bot with Node.js.
+</Aside>
+
+```bash
+npm install guilds.js dotenv
+```
+
+Create a file named `.env` in the root directory (the same one as your `package.json`) and structure it like this:
+
+```properties
+# add your discord bot's token where "..." is
+DISCORD_TOKEN="..."
+```
+
+Then, we'll create the `src` directory which will contain our bot's code, and then create an `index.js` file in that folder. This will be the main file that runs our bot. Don't forget to update the `main` field in your `package.json` to `src/index.js`, and set `type` to `module`.
+
+Your bot's folder should look something like this:
+
+```
+example-bot
+├── node_modules
+├── package-lock.json
+├── package.json
+└── src
+    └── index.js
+```
+
+In the `src/index.js` file, we'll:
+
+- Setup dotenv to read the token from the `.env` file
+- Import the Client class from guilds.js
+- Initialize our client and connect it to Discord
+- Listen for any potential errors and log them to the console
+
+```js
+import { Client, GatewayIntents } from "guilds.js";
+import "dotenv/config";
+
+const client = new Client({
+    token: process.env.DISCORD_TOKEN,
+    intents: [
+        GatewayIntents.Guilds,
+        GatewayIntents.GuildMembers,
+        GatewayIntents.GuildMessages,
+    ],
+});
+
+client.once("ready", (c) => {
+    console.log(`Logged in as ${c.user.tag}!`);
+});
+
+client.on("error", console.error);
+
+client.connect();
+```
+
+Run `node .` in the terminal to start the bot.
+
+<Aside type="tip">
+    You can add a script to your `package.json` file to run `node .` for you:
+    ```json
+    {
+        ...
+        "scripts": {
+            "start": "node ."
+        }
+    }
+    ```
+
+    Run this script via `npm run start`.
+
+</Aside>
+
+Your terminal should output something like this:
+
+```
+Logged in as Example#1234!
+```
+
+And congratulations, your bot is now online! 🎉
+
+Later in this guide, we'll implement more advanced features for the bot, such as listening for messages, handling commands, and more.
