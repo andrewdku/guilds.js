@@ -20,6 +20,7 @@ export const Endpoints = {
     /**
      * @GET `/guilds/{guildId}`
      * @PATCH `/guilds/{guildId}`
+     * @param guildId Guild ID
      */
     guild(guildId: string) {
         return `${baseApiUrl}/guilds/${guildId}` as const;
