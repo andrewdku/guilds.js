@@ -19,6 +19,14 @@ export const Endpoints = {
 
     /**
      * @GET `/guilds/{guildId}`
+     * @PATCH `/guilds/{guildId}`
+     */
+    guild(guildId: string) {
+        return `${baseApiUrl}/guilds/${guildId}` as const;
+    },
+
+    /**
+     * @GET `/guilds/{guildId}`
      */
     guildPReview(guildId: string) {
         return `${baseApiUrl}/guilds/${guildId}/preview` as const;
