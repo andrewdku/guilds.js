@@ -2,7 +2,7 @@
 
 This file includes the library's history and changes.
 
-## v0.0.4 — unreleased
+## [guilds.js@0.0.4](https://github.com/andrewdku/guilds.js/releases/tag/guilds.js%400.0.4) — 24 Feb 2026
 
 - Added (partial) Discord API typings
 - Added a `GatewayIntents` object
@@ -18,6 +18,6 @@ This file includes the library's history and changes.
 - Separated `gateway` and `gatewayBot` endpoints
 - Turned `Endpoints` into an object rather than a static class
 
-## [v0.0.3](https://github.com/andrewdku/guilds.js/releases/tag/v0.0.3) — 23 Feb 2026
+## [guilds.js@0.0.3](https://github.com/andrewdku/guilds.js/releases/tag/guilds.js%400.0.3) — 23 Feb 2026
 
 - Initial release (connects client to Discord)
