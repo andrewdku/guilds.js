@@ -2,19 +2,21 @@
 import { defineConfig } from "astro/config";
 import starlightTypeDoc, { typeDocSidebarGroup } from "starlight-typedoc";
 import starlight from "@astrojs/starlight";
+import rapideTheme from "starlight-theme-rapide";
 
 export default defineConfig({
     integrations: [
         starlight({
             title: "guilds.js",
             favicon: "./src/assets/logo-round.png",
-            logo: { src: "./src/assets/logo-wide-round.png", replacesTitle: true },
+            /* logo: { src: "./src/assets/logo-wide-round.png", replacesTitle: true }, */
             plugins: [
                 starlightTypeDoc({
                     entryPoints: ["../packages/guilds.js/src/index.ts"],
                     tsconfig: "../packages/guilds.js/tsconfig.json",
                     output: "api",
                 }),
+                rapideTheme(),
             ],
             social: [
                 {
