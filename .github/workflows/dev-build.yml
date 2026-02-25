@@ -49,17 +49,19 @@ jobs:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
               run: pnpm publish --tag dev --access public --no-git-checks
 
-            - name: Deprecate previous development version
-              working-directory: packages/guilds.js
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-                  NEW_VERSION: ${{ env.DEV_VERSION }}
+            - name: Deprecate previous dev version
               run: |
-                  PREV_VERSION=$(npm view $(node -p "require('./package.json').name") versions --json \
+                  PKG_NAME=$(node -p "require('./packages/guilds.js/package.json').name")
+                  PREV_VERSION=$(npm view "$PKG_NAME" versions --json \
                     | node -e "
                         const versions = JSON.parse(require('node:fs').readFileSync(0,'utf8'));
-                        const devs = versions.filter(v => v.includes('-dev.'));
-                        const prev = devs.filter(v => v !== process.env.NEW_VERSION).pop();
-                        if(prev) console.log(prev);
+                        const devs = versions.filter((version) => version.includes('-dev.'));
+                        const prev = devs.filter((version) => version !== process.env.NEW_VERSION).pop();
+                        if (prev) { console.log(prev); }
                       ")
-                  [ -n "$PREV_VERSION" ] && pnpm deprecate $(node -p "require('./package.json').name")@"$PREV_VERSION" "outdated dev build"
+                  if [ -n "$PREV_VERSION" ]; then
+                    npm deprecate "$PKG_NAME@$PREV_VERSION" "outdated dev build"
+                  fi
+              env:
+                  NEW_VERSION: ${{ env.DEV_VERSION }}
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
