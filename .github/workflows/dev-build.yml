@@ -6,28 +6,14 @@ on:
     workflow_dispatch:
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-
-        steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-node@v4
-              with:
-                  node-version: 24
-
-            - run: corepack enable
-            - run: pnpm install --frozen-lockfile
-            - run: pnpm build --filter guilds.js
-
     publish:
         runs-on: ubuntu-latest
-        needs: build
-
-        permissions:
-            contents: read
-            id-token: write
-
         steps:
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  version: "10.30.2"
+
             - name: Checkout repository
               uses: actions/checkout@v4
 
@@ -37,49 +23,37 @@ jobs:
                   node-version: 24
                   registry-url: https://registry.npmjs.org/
 
-            - name: Enable Corepack
-              run: corepack enable
-
             - name: Install dependencies
-              run: pnpm install --frozen-lockfile
+              run: pnpm install --frozen-lockfile --shamefully-hoist
 
-            - name: Generate version string
-              working-directory: packages/guilds.js
+            - name: Generate dev version
+              id: version
               run: |
-                  BASE_VERSION=$(node -p "require('./package.json').version")
-                  DATE=$(date -u +%Y%m%d%H%M)
-                  DEV_VERSION="${BASE_VERSION}-dev.${DATE}"
+                  DEV_VERSION="$(node -p "require('./packages/guilds.js/package.json').version + '-dev.' + new Date().toISOString().replace(/[-T:]/g,'').slice(0,12)")"
                   echo "DEV_VERSION=$DEV_VERSION" >> $GITHUB_ENV
-                  pnpm version "$DEV_VERSION" --no-git-tag-version
+                  echo "DEV_VERSION=$DEV_VERSION" >> $GITHUB_OUTPUT
+                  pnpm --filter guilds.js version "$DEV_VERSION" --no-git-tag-version
 
-            - name: Publish to npm
+            - name: Build package
+              run: pnpm build --filter guilds.js
+
+            - name: Publish package
               working-directory: packages/guilds.js
-              run: |
-                  PKG_NAME=$(node -p "require('./package.json').name")
-                  echo "PKG_NAME=$PKG_NAME" >> $GITHUB_ENV
-                  pnpm publish --tag dev --access public
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+              run: pnpm publish --tag dev --access public
 
-            - name: Deprecate previous development version
+            - name: Deprecate previous dev version
               working-directory: packages/guilds.js
-              run: |
-                  PKG_NAME="$PKG_NAME"
-                  NEW_VERSION="$DEV_VERSION"
-
-                  PREV_VERSION=$(npm view "$PKG_NAME" versions --json \
-                    | node -e "
-                        const versions = JSON.parse(require('fs').readFileSync(0,'utf8'));
-                        const dev = versions.filter(v => v.includes('-dev.'));
-                        const prev = dev.filter(v => v !== process.env.NEW_VERSION).pop();
-                        if (prev) console.log(prev);
-                      ")
-
-                  if [ -z "$PREV_VERSION" ]; then
-                    exit 0
-                  fi
-
-                  pnpm deprecate "$PKG_NAME@$PREV_VERSION" "outdated dev build"
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
                   NEW_VERSION: ${{ env.DEV_VERSION }}
+              run: |
+                  PREV_VERSION=$(npm view $(node -p "require('./package.json').name") versions --json \
+                    | node -e "
+                        const versions = JSON.parse(require('fs').readFileSync(0,'utf8'));
+                        const devs = versions.filter(v => v.includes('-dev.'));
+                        const prev = devs.filter(v => v !== process.env.NEW_VERSION).pop();
+                        if(prev) console.log(prev);
+                      ")
+                  [ -n "$PREV_VERSION" ] && pnpm deprecate $(node -p "require('./package.json').name")@"$PREV_VERSION" "outdated dev build"
