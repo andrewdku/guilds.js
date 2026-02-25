@@ -21,6 +21,11 @@ export interface PrimaryGuild {
     tag?: string;
 }
 
+export interface UnavailableGuild {
+    id: string;
+    unavailable: true;
+}
+
 export interface User {
     accent_color?: number;
     avatar?: string;
