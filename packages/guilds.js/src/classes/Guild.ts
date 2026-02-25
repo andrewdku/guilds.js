@@ -1,3 +1,4 @@
+import type { DiscordAPI } from "@/typings";
 import { Client, GuildsError } from "@/classes";
 
 /**
@@ -10,8 +11,7 @@ export class Guild {
     public id: string;
     public name: string;
 
-    // TODO: DiscordAPI.Guild
-    public constructor(client: Client, data: any) {
+    public constructor(client: Client, data: DiscordAPI.APIGuild) {
         if (!client || !(client instanceof Client)) {
             throw new GuildsError("Invalid client provided", "DiscordAPIError");
         }
