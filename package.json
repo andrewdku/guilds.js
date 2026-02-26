@@ -10,7 +10,7 @@
         "build": "turbo run build",
         "dev": "turbo run dev",
         "format": "prettier --write . --config package.json",
-        "lint": "tsc -p ./package --noEmit; prettier . --check --config package.json --ignore-path=.prettierignore"
+        "lint": "tsc -p ./package --noEmit; prettier . --check --config package.json --ignore-path .prettierignore"
     },
     "devDependencies": {
         "prettier": "^3.8.1",
