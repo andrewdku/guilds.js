@@ -1,22 +1,24 @@
-import {
-    type ClientEvents,
-    type ClientPresenceProps,
-    type ClientProps,
-    type CreateMessageProps,
-    type GatewayPayload,
-    ActivityTypes,
-    Endpoints,
-    EventHandler,
-    GatewayOpcodes,
-    GuildsError,
-    parseIntents,
-    RESTManager,
-    User,
-} from "@/index";
+import { ActivityTypes, GatewayOpcodes } from "@/utils/constants";
+import { Endpoints } from "@/utils/endpoints";
+import { EventHandler } from "@/classes/EventHandler";
+import { GuildsError } from "@/classes/GuildsError";
+import { parseIntents } from "@/utils/parse-intents";
+import { RESTManager } from "@/classes/RESTManager";
+import { User } from "@/classes/User";
+import type {
+    ClientEvents,
+    ClientPresenceProps,
+    ClientProps,
+    CreateMessageProps,
+    GatewayPayload,
+} from "@/types";
 
 /** Class representing a Discord client */
-export class Client extends EventHandler<ClientEvents> {
+export class Client {
     #token: string;
+
+    /** Client event handler */
+    public events = new EventHandler<ClientEvents>();
 
     /** Gateway heartbeat inteval */
     public heartbeatInterval?: NodeJS.Timeout;
@@ -54,8 +56,6 @@ export class Client extends EventHandler<ClientEvents> {
      * @param props Client options
      */
     public constructor(props: ClientProps) {
-        super();
-
         if (!props || typeof props !== "object") {
             throw new GuildsError("Invalid client props provided", "ClientPropsError");
         }
@@ -122,14 +122,23 @@ export class Client extends EventHandler<ClientEvents> {
         }
 
         this.ws = new WebSocket(`${url}?v=10&encoding=json`);
-        this.ws.onopen = () => this.emit("debug", "WebSocket connected");
-        this.ws.onerror = (error) => this.emit("error", `WebSocket error: ${error}`);
+        this.ws.onopen = () => {
+            this.events.emit("debug", "WebSocket connected");
+        };
+
+        this.ws.onerror = (error) => {
+            this.events.emit("error", `WebSocket error: ${error}`);
+        };
+
         this.ws.onmessage = (event) => {
             this.#handleGatewayEvent(JSON.parse(event.data.toString()));
         };
 
         this.ws.onclose = (event) => {
-            this.emit("debug", `WebSocket closed: ${event.reason} (${event.code})`);
+            this.events.emit(
+                "debug",
+                `WebSocket closed: ${event.reason} (${event.code})`
+            );
 
             if (!this.destroyed) {
                 setTimeout(() => this.#connectWebSocket(url), 3000);
@@ -148,7 +157,7 @@ export class Client extends EventHandler<ClientEvents> {
 
         switch (payload.op) {
             case GatewayOpcodes.Hello: {
-                this.emit("debug", "Received Hello event");
+                this.events.emit("debug", "Received Hello event");
 
                 if (this.heartbeatInterval) {
                     clearInterval(this.heartbeatInterval);
@@ -157,7 +166,10 @@ export class Client extends EventHandler<ClientEvents> {
                 this.lastHeartbeatAck = true;
                 this.heartbeatInterval = setInterval(() => {
                     if (!this.lastHeartbeatAck) {
-                        this.emit("debug", "Heartbeat ACK failed, reconnecting...");
+                        this.events.emit(
+                            "debug",
+                            "Heartbeat ACK failed, reconnecting..."
+                        );
                         this.ws?.close(4000, "Heartbeat failed");
                         return;
                     }
@@ -183,7 +195,7 @@ export class Client extends EventHandler<ClientEvents> {
                         })
                     );
 
-                    this.emit("debug", "Resuming  session...");
+                    this.events.emit("debug", "Resuming  session...");
                 } else {
                     this.ws?.send(
                         JSON.stringify({
@@ -208,7 +220,7 @@ export class Client extends EventHandler<ClientEvents> {
                         })
                     );
 
-                    this.emit("debug", "Identifying...");
+                    this.events.emit("debug", "Identifying...");
                 }
 
                 break;
@@ -226,8 +238,8 @@ export class Client extends EventHandler<ClientEvents> {
 
                 this.sessionId = payload.d.session_id;
                 this.ready = true;
-                this.emit("debug", "Received Dispatch (Ready) event");
-                this.emit("ready", this);
+                this.events.emit("debug", "Received Dispatch (Ready) event");
+                this.events.emit("ready", this);
 
                 break;
             }

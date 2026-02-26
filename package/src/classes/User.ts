@@ -1,5 +1,8 @@
 import type { APIUser } from "discord-api-types/v10";
-import { type AvatarURLProps, Client, colorIntToHex, GuildsError } from "@/index";
+import type { AvatarURLProps } from "@/types";
+import { Client } from "@/classes/Client";
+import { colorIntToHex } from "@/utils/color-convert";
+import { GuildsError } from "@/classes/GuildsError";
 
 /**
  * Class representing a Discord user

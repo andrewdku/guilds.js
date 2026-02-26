@@ -1,4 +1,4 @@
-import { baseApiUrl } from "@/index";
+import { baseApiUrl } from "@/utils/constants";
 
 /** Discord's API v10 endpoints */
 export const Endpoints = {
