@@ -12,8 +12,8 @@ export default defineConfig({
             favicon: "./src/assets/logo-round.png",
             plugins: [
                 starlightTypeDoc({
-                    entryPoints: ["../packages/guilds.js/src/index.ts"],
-                    tsconfig: "../packages/guilds.js/tsconfig.json",
+                    entryPoints: ["../package/src/index.ts"],
+                    tsconfig: "../package/tsconfig.json",
                     output: "api",
                 }),
                 rapideTheme(),

@@ -1,4 +1,5 @@
-import type { AvatarURLProps, DiscordAPI } from "@/typings";
+import type { APIUser } from "discord-api-types/v10";
+import type { AvatarURLProps } from "@/types";
 import { Client, GuildsError } from "@/classes";
 import { colorIntToHex } from "@/utils";
 
@@ -38,7 +39,7 @@ export class User {
     public mfaEnabled?: boolean;
 
     /** The data from Discord's API provided as-is */
-    public rawData: DiscordAPI.APIUser;
+    public rawData: APIUser;
 
     /** Whether the user is a Discord system account */
     public system: boolean = false;
@@ -49,7 +50,7 @@ export class User {
     /** Whether the user's email is verified (user clients only) */
     public verified?: boolean;
 
-    public constructor(client: Client, data: DiscordAPI.APIUser) {
+    public constructor(client: Client, data: APIUser) {
         if (!client || !(client instanceof Client)) {
             throw new GuildsError("Invalid client provided", "DiscordAPIError");
         }

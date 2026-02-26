@@ -24,10 +24,15 @@ export interface ClientProps {
     presence?: Partial<ClientPresenceProps>;
 }
 
+export type CreateMessageProps = Partial<{
+    content: string;
+}>;
+
 const errorScopes = [
     "ClientIntentsError",
     "ClientPropsError",
     "ClientTokenError",
+    "CreateMessageError",
     "DiscordAPIError",
     "GatewayError",
     "WebSocketError",
@@ -66,5 +71,3 @@ export type UserActivityType =
     | (typeof ActivityTypes)[keyof typeof ActivityTypes];
 
 export type UserStatus = "online" | "idle" | "dnd" | "offline";
-
-export type { DiscordAPI } from "./api-types";

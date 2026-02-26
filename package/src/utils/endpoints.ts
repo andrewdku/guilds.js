@@ -3,6 +3,23 @@ import { baseApiUrl } from "@/utils";
 /** Discord's API v10 endpoints */
 export const Endpoints = {
     /**
+     * - GET `/channels/{channelId}`
+     * @param channelId Channel ID
+     */
+    channel(channelId: string) {
+        return `${baseApiUrl}/channels/${channelId}` as const;
+    },
+
+    /**
+     * - GET `/channels/{channelId}/messages`
+     * - POST `/channels/{channelId}/messages`
+     * @param channelId Channel ID
+     */
+    channelMessages(channelId: string) {
+        return `${baseApiUrl}/channels/${channelId}/messages` as const;
+    },
+
+    /**
      * - GET `/gateway`
      */
     gateway() {

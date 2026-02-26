@@ -4,8 +4,9 @@ import type {
     ClientEvents,
     ClientPresenceProps,
     ClientProps,
+    CreateMessageProps,
     GatewayPayload,
-} from "@/typings";
+} from "@/types";
 
 /** Class representing a Discord client */
 export class Client extends EventHandler<ClientEvents> {
@@ -225,6 +226,28 @@ export class Client extends EventHandler<ClientEvents> {
                 break;
             }
         }
+    }
+
+    /**
+     * Send a message to a specified channel ID
+     * @param channelId Channel ID
+     * @param data Message data
+     */
+    public async createMessage(
+        channelId: string,
+        props: CreateMessageProps
+    ): Promise<void> {
+        if (!channelId || typeof channelId !== "string") {
+            throw new GuildsError("Invalid channel ID", "CreateMessageError");
+        }
+
+        if (!props || (props && !props.content)) {
+            throw new GuildsError("Invalid message data", "CreateMessageError");
+        }
+
+        await this.rest.post(Endpoints.channelMessages(channelId), {
+            body: JSON.stringify(props),
+        });
     }
 
     /** Update the client's user presence */

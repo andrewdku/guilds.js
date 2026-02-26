@@ -1,4 +1,4 @@
-import type { DiscordAPI } from "@/typings";
+import type { APIUnavailableGuild } from "discord-api-types/v10";
 import { Client, GuildsError } from "@/classes";
 
 /**
@@ -11,7 +11,7 @@ export class UnavailableGuild {
     public id: string;
     public unavailable: boolean = true;
 
-    public constructor(client: Client, data: DiscordAPI.APIUnavailableGuild) {
+    public constructor(client: Client, data: APIUnavailableGuild) {
         if (!client || !(client instanceof Client)) {
             throw new GuildsError("Invalid client provided", "DiscordAPIError");
         }

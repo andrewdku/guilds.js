@@ -29,12 +29,12 @@ jobs:
             - name: Generate development version
               id: version
               run: |
-                  DEV_VERSION=$(node -p "require('./packages/guilds.js/package.json').version + '-dev.' + new Date().toISOString().replace(/[-T:]/g,'').slice(0,12)")
+                  DEV_VERSION=$(node -p "require('./package/package.json').version + '-dev.' + new Date().toISOString().replace(/[-T:]/g,'').slice(0,12)")
                   echo "DEV_VERSION=$DEV_VERSION" >> $GITHUB_ENV
                   echo "DEV_VERSION=$DEV_VERSION" >> $GITHUB_OUTPUT
                   node -e "
                     const fs = require('node:fs');
-                    const pkgPath = './packages/guilds.js/package.json';
+                    const pkgPath = './package/package.json';
                     const pkg = require(pkgPath);
                     pkg.version = '$DEV_VERSION';
                     fs.writeFileSync(pkgPath, JSON.stringify(pkg,null,2));
@@ -44,14 +44,14 @@ jobs:
               run: pnpm build --filter guilds.js
 
             - name: Publish package
-              working-directory: packages/guilds.js
+              working-directory: package
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
               run: pnpm publish --tag dev --access public --no-git-checks
 
             - name: Deprecate previous dev version
               run: |
-                  PKG_NAME=$(node -p "require('./packages/guilds.js/package.json').name")
+                  PKG_NAME=$(node -p "require('./package/package.json').name")
                   PREV_VERSION=$(npm view "$PKG_NAME" versions --json \
                     | node -e "
                         const versions = JSON.parse(require('node:fs').readFileSync(0,'utf8'));

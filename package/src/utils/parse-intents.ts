@@ -1,4 +1,4 @@
-import type { IntentsResolvable } from "@/typings";
+import type { IntentsResolvable } from "@/types";
 import { GuildsError } from "@/classes";
 import { GatewayIntents } from "@/utils";
 
