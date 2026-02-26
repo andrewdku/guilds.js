@@ -1,4 +1,4 @@
-import type { ErrorScope } from "@/types";
+import type { ErrorScope } from "@/index";
 
 /** Class representing a library-related error */
 export class GuildsError extends Error {

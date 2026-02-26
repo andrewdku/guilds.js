@@ -1,5 +1,4 @@
-import type { HTTPRequestMethod } from "@/types";
-import { GuildsError } from "@/classes";
+import { type HTTPRequestMethod, GuildsError } from "@/index";
 
 /** Class representing a Discord REST API manager */
 export class RESTManager {

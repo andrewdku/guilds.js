@@ -51,6 +51,7 @@ export class EventHandler<Events extends Record<string, any[]>> {
      * Emit an event
      * @param event Event name
      * @param args Event arguments
+     * @internal
      */
     public async emit<K extends keyof Events>(event: K, ...args: Events[K]) {
         if (!this.#listeners[event]) {

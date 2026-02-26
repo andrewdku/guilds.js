@@ -1,12 +1,18 @@
-import { EventHandler, GuildsError, RESTManager, User } from "@/classes";
-import { ActivityTypes, Endpoints, GatewayOpcodes, parseIntents } from "@/utils";
-import type {
-    ClientEvents,
-    ClientPresenceProps,
-    ClientProps,
-    CreateMessageProps,
-    GatewayPayload,
-} from "@/types";
+import {
+    type ClientEvents,
+    type ClientPresenceProps,
+    type ClientProps,
+    type CreateMessageProps,
+    type GatewayPayload,
+    ActivityTypes,
+    Endpoints,
+    EventHandler,
+    GatewayOpcodes,
+    GuildsError,
+    parseIntents,
+    RESTManager,
+    User,
+} from "@/index";
 
 /** Class representing a Discord client */
 export class Client extends EventHandler<ClientEvents> {

@@ -1,6 +1,4 @@
-import type { IntentsResolvable } from "@/types";
-import { GuildsError } from "@/classes";
-import { GatewayIntents } from "@/utils";
+import { type IntentsResolvable, GatewayIntents, GuildsError } from "@/index";
 
 /**
  * Parse intents into bitfield

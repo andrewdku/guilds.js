@@ -1,5 +1,5 @@
-import type { ActivityTypes, GatewayIntents, GatewayOpcodes } from "@/utils";
-import type { Client } from "@/classes";
+import type { ActivityTypes, GatewayIntents, GatewayOpcodes } from "@/index";
+import type { Client } from "@/index";
 
 export interface AvatarURLProps {
     size: 128 | 256 | 512 | 1024 | 2048 | 4096;

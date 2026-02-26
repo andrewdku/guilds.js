@@ -1,5 +1,5 @@
 import type { APIMessage } from "discord-api-types/v10";
-import { Client } from "@/classes";
+import { Client } from "@/index";
 
 export class Message {
     public client: Client;
