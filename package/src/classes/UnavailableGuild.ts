@@ -9,6 +9,7 @@ export class UnavailableGuild {
     /** The client associated with this guild */
     public client: Client;
     public id: string;
+    public rawData: APIUnavailableGuild;
     public unavailable: boolean = true;
 
     public constructor(client: Client, data: APIUnavailableGuild) {
@@ -18,6 +19,7 @@ export class UnavailableGuild {
 
         this.client = client;
         this.id = data.id;
+        this.rawData = data;
         this.unavailable = data.unavailable;
     }
 }

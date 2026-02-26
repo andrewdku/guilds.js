@@ -10,6 +10,7 @@ export class Guild {
     public client: Client;
     public id: string;
     public name: string;
+    public rawData: APIGuild;
 
     public constructor(client: Client, data: APIGuild) {
         if (!client || !(client instanceof Client)) {
@@ -19,5 +20,6 @@ export class Guild {
         this.client = client;
         this.id = data.id;
         this.name = data.name;
+        this.rawData = data;
     }
 }
