@@ -9,7 +9,7 @@ export default defineConfig({
     integrations: [
         starlight({
             title: "guilds.js",
-            favicon: "public/favicon.ico",
+            favicon: "favicon.svg",
             plugins: [
                 starlightTypeDoc({
                     entryPoints: ["../package/src/index.ts"],
