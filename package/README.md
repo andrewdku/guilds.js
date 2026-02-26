@@ -13,7 +13,7 @@
 </div>
 <h1 align="center">guilds.js</h1>
 
-guilds.js is a work-in-progress Node.js library wrapper around the [Discord API](https://discord.com/developers/docs/intro).
+guilds.js is a Node.js library for using the [Discord API](https://discord.com/developers/docs/intro).
 
 ## Installation
 

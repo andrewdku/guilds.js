@@ -1,6 +1,6 @@
 {
     "name": "guilds.js",
-    "description": "Interact with Discord's API with ease",
+    "description": "Node.js library for using the Discord API",
     "version": "0.0.4",
     "license": "Apache-2.0",
     "scripts": {
