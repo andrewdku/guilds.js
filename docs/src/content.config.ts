@@ -6,11 +6,7 @@ export const collections = {
     docs: defineCollection({
         loader: docsLoader(),
         schema: docsSchema({
-            extend: z.object({
-                // banner: z.object({ content: z.string() }).default({
-                // content: "API reference is auto-generated from the main branch.",
-                // }),
-            }),
+            extend: z.object({}),
         }),
     }),
 };
