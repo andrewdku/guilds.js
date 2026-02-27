@@ -11,16 +11,18 @@ export type ClientEvents = {
     ready: [client: Client];
 };
 
-export interface ClientPresenceProps {
+export interface ClientPresence {
     activities: UserActivity[];
     platform: "desktop" | "mobile";
     status: UserStatus;
 }
 
+export type ClientPresenceProps = Partial<ClientPresence>;
+
 export interface ClientProps {
     token: string;
     intents: IntentsResolvable;
-    presence?: Partial<ClientPresenceProps>;
+    presence?: Partial<ClientPresence>;
 }
 
 export type CreateMessageProps = Partial<{

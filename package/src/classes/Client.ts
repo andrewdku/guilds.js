@@ -7,6 +7,7 @@ import { RESTManager } from "@/classes/RESTManager";
 import { User } from "@/classes/User";
 import type {
     ClientEvents,
+    ClientPresence,
     ClientPresenceProps,
     ClientProps,
     CreateMessageProps,
@@ -45,7 +46,7 @@ export class Client {
     public user: User | null = null!;
 
     /** Current presence information */
-    public presence: ClientPresenceProps = {
+    public presence: ClientPresence = {
         platform: "desktop",
         status: "online",
         activities: [],
@@ -269,7 +270,7 @@ export class Client {
     }
 
     /** Update the client's user presence */
-    public setPresence(presence: Partial<ClientPresenceProps>) {
+    public setPresence(presence: ClientPresenceProps) {
         this.presence = { ...this.presence, ...presence };
 
         if (this.ws) {
