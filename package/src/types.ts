@@ -54,9 +54,11 @@ export interface GatewayPayload {
 }
 
 export type HTTPRequestMethod = "DELETE" | "GET" | "PATCH" | "POST" | "PUT";
-export type If<Condition extends boolean, Then, Else = never> = Condition extends true
-    ? Then
-    : Else;
+export type If<
+    Condition extends boolean,
+    Then,
+    Else = never,
+> = Condition extends true ? Then : Else;
 
 export type IntentsResolvable = number | number[] | GatewayIntent[];
 
