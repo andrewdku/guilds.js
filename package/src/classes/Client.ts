@@ -5,6 +5,7 @@ import { EventHandler } from "@/classes/EventHandler";
 import { GuildsError } from "@/classes/GuildsError";
 import { parseIntents } from "@/utils/parse-intents";
 import { RESTManager } from "@/classes/RESTManager";
+import { User } from "@/classes/User";
 import type {
     ClientEvents,
     ClientPresence,
@@ -267,6 +268,21 @@ export class Client {
         await this.rest.post(Endpoints.channelMessages(channelId), {
             body: JSON.stringify(props),
         });
+    }
+
+    /**
+     * Fetch a user by ID
+     * @param id User ID (default: @me)
+     * @returns User object or null
+     */
+    public async fetchUser(id: string = "@me"): Promise<User | null> {
+        const res = await this.rest.get(Endpoints.user(id));
+
+        if (!res.ok) {
+            return null;
+        }
+
+        return new User(this, res.data)!;
     }
 
     /** Update the client's user presence */
