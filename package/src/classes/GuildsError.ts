@@ -1,6 +1,5 @@
 import type { ErrorScope } from "@/types";
 
-/** Class representing a library-related error */
 export class GuildsError extends Error {
     public static override name: string = "GuildsError";
     public readonly scope?: ErrorScope;

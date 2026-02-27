@@ -1,7 +1,3 @@
-/**
- * Converts an integer color to a hex color string
- * @returns Hex string or null
- */
 export function colorIntToHex(
     color: number | null,
     addHashSymbol = false
@@ -14,10 +10,6 @@ export function colorIntToHex(
     return addHashSymbol ? `#${hex}` : hex;
 }
 
-/**
- * Converts a hex color string to an integer color
- * @returns Color integer or null
- */
 export function hexToColorInt(hex: string | null): number | null {
     if (!hex) {
         return null;

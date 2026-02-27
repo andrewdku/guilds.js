@@ -3,7 +3,6 @@ import type { Client } from "@/classes/Client";
 import { User } from "@/classes/User";
 
 export class ClientUser extends User {
-    /** The client user's about me */
     public bio?: string;
 
     public constructor(client: Client, data: APIUser) {

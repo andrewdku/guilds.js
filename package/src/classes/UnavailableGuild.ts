@@ -2,12 +2,7 @@ import type { APIUnavailableGuild } from "discord-api-types/v10";
 import { Client } from "@/classes/Client";
 import { GuildsError } from "@/classes/GuildsError";
 
-/**
- * Class representing an unavailable Discord guild (server)
- * @see https://docs.discord.com/developers/resources/guild#unavailable-guild-object
- */
 export class UnavailableGuild {
-    /** The client associated with this guild */
     public client: Client;
     public id: string;
     public rawData: APIUnavailableGuild;

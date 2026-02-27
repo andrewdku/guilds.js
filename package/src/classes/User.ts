@@ -4,39 +4,16 @@ import { Client } from "@/classes/Client";
 import { colorIntToHex } from "@/utils/color-convert";
 import { GuildsError } from "@/classes/GuildsError";
 
-/**
- * Class representing a Discord user
- * @see https://docs.discord.com/developers/resources/user
- */
 export class User {
-    /** The user's banner color as a color integer */
     public accentColor?: number;
-
-    /** The user's banner color as a hex color*/
     public accentColorHex: string | null;
-
-    /** Whether the user is a bot */
     public bot: boolean = false;
-
-    /** The client associated with this user */
     public client: Client;
-
-    /** The user's discriminator, or "0" if they have none */
     public discriminator: string = "0";
-
-    /** The user's display name or bot's application name */
     public displayName?: string;
-
-    /** The user's ID snowflake */
     public id: string;
-
-    /** The data from Discord's API provided as-is */
     public rawData: APIUser;
-
-    /** Whether the user is a Discord system account */
     public system: boolean = false;
-
-    /** The user's username (not to be confused with display name or tag) */
     public username: string;
 
     public constructor(client: Client, data: APIUser) {
@@ -58,7 +35,6 @@ export class User {
         return this;
     }
 
-    /** Get the user's avatar as an image URL */
     public avatarURL(props: AvatarURLProps): string | null {
         if (!props || !props.size || (props.format && typeof props.format !== "string")) {
             throw new GuildsError(
@@ -76,14 +52,12 @@ export class User {
         return `https://cdn.discordapp.com/avatars/${this.id}/${avatarHash}.${props.format || (avatarHash.startsWith("a_") ? "gif" : "png")}?size=${props.size}`;
     }
 
-    /** `username#0000` or just `username` (if no discriminator) */
     public get tag(): string {
         return this.discriminator == "0"
             ? this.username
             : `${this.username}#${this.discriminator}`;
     }
 
-    /** User mention as a string, e.g. <@123456789> */
     public toString(): string {
         return `<@${this.id}>`;
     }

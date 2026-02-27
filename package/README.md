@@ -48,10 +48,8 @@ You can find more examples and guides [here](https://guilds.js.org/guide/getting
 ```js
 import { Client, GatewayIntents } from "guilds.js";
 
-/**
- * Configure your bot here:
- * https://discord.com/developers/applications
- */
+// Configure your bot here:
+// https://discord.com/developers/applications
 
 const client = new Client({
     token: process.env.DISCORD_TOKEN,

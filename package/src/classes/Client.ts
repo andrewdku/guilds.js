@@ -16,48 +16,24 @@ import type {
     GatewayPayload,
 } from "@/types";
 
-/** Class representing a Discord client */
 export class Client {
     #token: string;
 
-    /** Client event handler */
     public events = new EventHandler<ClientEvents>();
-
-    /** Gateway heartbeat inteval */
     public heartbeatInterval?: NodeJS.Timeout;
-
-    /** Last received sequence number */
     public sequenceNumber: number | null = null;
-
-    /** Gateway session ID */
     public sessionId?: string;
-
-    /** REST manager instance to handle API calls */
     public rest: RESTManager;
-
-    /** Client intents bitfield */
     public intents: number;
-
-    /** Whether the client is ready */
     public ready: boolean = false;
-
-    /** WebSocket connection */
     public ws?: WebSocket;
-
-    /** Client user, or null if not ready */
     public user: ClientUser | null = null!;
-
-    /** Current presence information */
     public presence: ClientPresence = {
         platform: "desktop",
         status: "online",
         activities: [],
     };
 
-    /**
-     * Instantiate a new Client
-     * @param props Client options
-     */
     public constructor(props: ClientProps) {
         if (!props || typeof props !== "object") {
             throw new GuildsError("Invalid client props provided", "ClientPropsError");
@@ -96,12 +72,10 @@ export class Client {
         return this;
     }
 
-    /** The client's token */
     public get token() {
         return this.#token;
     }
 
-    /** Start the connection to Discord's gateway */
     public async connect(): Promise<Client> {
         const res = await this.rest.get(Endpoints.gatewayBot());
         const userRes = await this.rest.get(Endpoints.user());
@@ -118,7 +92,6 @@ export class Client {
         return this;
     }
 
-    /** Initialize the WebSocket */
     #connectWebSocket(url: string) {
         if (this.destroyed) {
             return;
@@ -152,7 +125,6 @@ export class Client {
     public destroyed: boolean = false;
     public lastHeartbeatAck: boolean = true;
 
-    /** Handle incoming gateway events */
     #handleGatewayEvent(payload: GatewayPayload) {
         if (payload.s !== undefined && payload.s !== null) {
             this.sequenceNumber = payload.s;
@@ -173,6 +145,7 @@ export class Client {
                             "debug",
                             "Heartbeat ACK failed, reconnecting..."
                         );
+
                         this.ws?.close(4000, "Heartbeat failed");
                         return;
                     }
@@ -249,11 +222,6 @@ export class Client {
         }
     }
 
-    /**
-     * Send a message to a specified channel ID
-     * @param channelId Channel ID
-     * @param data Message data
-     */
     public async createMessage(
         channelId: string,
         props: CreateMessageProps
@@ -271,11 +239,6 @@ export class Client {
         });
     }
 
-    /**
-     * Fetch a guild by ID
-     * @param id Guild ID
-     * @returns Guild object or null
-     */
     public async fetchGuild(id: string): Promise<Guild | null> {
         const res = await this.rest.get(Endpoints.guild(id));
 
@@ -286,11 +249,6 @@ export class Client {
         return new Guild(this, res.data)!;
     }
 
-    /**
-     * Fetch a user by ID
-     * @param id User ID (default: @me)
-     * @returns User object or null
-     */
     public async fetchUser(id: string = "@me"): Promise<User | null> {
         const res = await this.rest.get(Endpoints.user(id));
 
@@ -301,7 +259,6 @@ export class Client {
         return new User(this, res.data)!;
     }
 
-    /** Update the client's user presence */
     public setPresence(presence: ClientPresenceProps) {
         this.presence = { ...this.presence, ...presence } as ClientPresence;
 
@@ -330,7 +287,6 @@ export class Client {
         return this;
     }
 
-    /** Destroy the connection to Discord's gateway */
     public disconnect(): void {
         if (this.heartbeatInterval) clearInterval(this.heartbeatInterval);
         this.ws?.close(1000, "Client disconnected");

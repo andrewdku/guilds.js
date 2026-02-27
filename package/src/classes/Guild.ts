@@ -2,12 +2,7 @@ import type { APIGuild } from "discord-api-types/v10";
 import { Client } from "@/classes/Client";
 import { GuildsError } from "@/classes/GuildsError";
 
-/**
- * Class representing a Discord guild (server)
- * @see https://docs.discord.com/developers/resources/guild
- */
 export class Guild {
-    /** The client associated with this guild */
     public client: Client;
     public id: string;
     public name: string;

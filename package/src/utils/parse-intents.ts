@@ -2,11 +2,6 @@ import type { IntentsResolvable } from "@/types";
 import { GatewayIntents } from "@/utils/constants";
 import { GuildsError } from "@/classes/GuildsError";
 
-/**
- * Parse intents into bitfield
- * @param intents Intents resolvable
- * @returns Parsed intents as a bitfield
- */
 export function parseIntents(intents: IntentsResolvable): number {
     if (typeof intents === "number") {
         return intents;
