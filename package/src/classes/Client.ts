@@ -271,7 +271,7 @@ export class Client {
 
     /** Update the client's user presence */
     public setPresence(presence: ClientPresenceProps) {
-        this.presence = { ...this.presence, ...presence };
+        this.presence = { ...this.presence, ...presence } as ClientPresence;
 
         if (this.ws) {
             this.ws.send(
@@ -281,12 +281,14 @@ export class Client {
                         status: this.presence.status,
                         since: null,
                         afk: false,
-                        activities: (this.presence.activities ?? []).map((a) => ({
-                            ...a,
+                        activities: (this.presence.activities ?? []).map((activity) => ({
+                            ...activity,
                             type:
-                                typeof a.type === "string"
-                                    ? ActivityTypes[a.type as keyof typeof ActivityTypes]
-                                    : a.type,
+                                typeof activity.type === "string"
+                                    ? ActivityTypes[
+                                          activity.type as keyof typeof ActivityTypes
+                                      ]
+                                    : activity.type,
                         })),
                     },
                 })
