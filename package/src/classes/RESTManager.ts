@@ -17,6 +17,7 @@ export class RESTManager {
             method,
             headers: {
                 Authorization: this.#token,
+                "User-Agent": `DiscordBot (https://guilds.js.org)`,
                 "Content-Type": "application/json",
                 ...(init?.headers ?? {}),
             },

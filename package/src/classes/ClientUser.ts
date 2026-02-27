@@ -7,7 +7,6 @@ export class ClientUser extends User {
 
     public constructor(client: Client, data: APIUser) {
         super(client, data);
-
         this.bio = (data as any).bio ?? undefined;
     }
 }

@@ -16,6 +16,6 @@ export class UnavailableGuild {
         this.client = client;
         this.id = data.id;
         this.rawData = data;
-        this.unavailable = data.unavailable;
+        this.unavailable = data.unavailable || true;
     }
 }

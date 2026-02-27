@@ -19,20 +19,23 @@ import type {
 export class Client {
     #token: string;
 
-    public events = new EventHandler<ClientEvents>();
+    public destroyed: boolean = false;
+    public events = new EventHandler();
     public heartbeatInterval?: NodeJS.Timeout;
-    public sequenceNumber: number | null = null;
-    public sessionId?: string;
-    public rest: RESTManager;
     public intents: number;
-    public ready: boolean = false;
-    public ws?: WebSocket;
-    public user: ClientUser | null = null!;
+    public lastHeartbeatAck: boolean = true;
     public presence: ClientPresence = {
         platform: "desktop",
         status: "online",
         activities: [],
     };
+
+    public ready: boolean = false;
+    public rest: RESTManager;
+    public sequenceNumber: number | null = null;
+    public sessionId?: string;
+    public user: ClientUser | null = null!;
+    public ws?: WebSocket;
 
     public constructor(props: ClientProps) {
         if (!props || typeof props !== "object") {
@@ -66,8 +69,8 @@ export class Client {
             ? props.token
             : `Bot ${props.token}`;
 
-        this.rest = new RESTManager(this.#token);
         this.intents = parseIntents(props.intents);
+        this.rest = new RESTManager(this.#token);
 
         return this;
     }
@@ -78,15 +81,15 @@ export class Client {
 
     public async connect(): Promise<Client> {
         const res = await this.rest.get(Endpoints.gatewayBot());
-        const userRes = await this.rest.get(Endpoints.user());
+        const user = await this.fetchUser("@me");
 
-        if (!res.ok || !userRes.ok) {
+        if (!res.ok || !user) {
             throw new GuildsError("Failed to connect to Discord", "DiscordAPIError");
         }
 
-        this.user = new ClientUser(this, userRes.data)!;
-        this.lastHeartbeatAck = true;
         this.destroyed = false;
+        this.lastHeartbeatAck = true;
+        this.user = new ClientUser(this, user.rawData)!;
         this.#connectWebSocket(res.data.url);
 
         return this;
@@ -121,9 +124,6 @@ export class Client {
             }
         };
     }
-
-    public destroyed: boolean = false;
-    public lastHeartbeatAck: boolean = true;
 
     #handleGatewayEvent(payload: GatewayPayload) {
         if (payload.s !== undefined && payload.s !== null) {
