@@ -2,6 +2,7 @@ import { ActivityTypes, GatewayOpcodes } from "@/utils/constants";
 import { ClientUser } from "@/classes/ClientUser";
 import { Endpoints } from "@/utils/endpoints";
 import { EventHandler } from "@/classes/EventHandler";
+import { Guild } from "@/classes/Guild";
 import { GuildsError } from "@/classes/GuildsError";
 import { parseIntents } from "@/utils/parse-intents";
 import { RESTManager } from "@/classes/RESTManager";
@@ -268,6 +269,21 @@ export class Client {
         await this.rest.post(Endpoints.channelMessages(channelId), {
             body: JSON.stringify(props),
         });
+    }
+
+    /**
+     * Fetch a guild by ID
+     * @param id Guild ID
+     * @returns Guild object or null
+     */
+    public async fetchGuild(id: string): Promise<Guild | null> {
+        const res = await this.rest.get(Endpoints.guild(id));
+
+        if (!res.ok) {
+            return null;
+        }
+
+        return new Guild(this, res.data)!;
     }
 
     /**
