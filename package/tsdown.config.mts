@@ -4,7 +4,7 @@ export default defineConfig({
     cjsDefault: true,
     clean: true,
     dts: true,
-    entry: ["src/index.ts"],
+    entry: ["src/**/*.ts", "!src/types.ts"],
     format: ["esm", "cjs"],
     minify: false,
     removeNodeProtocol: false,

@@ -19,6 +19,9 @@
     "module": "./dist/index.mjs",
     "types": "./dist/index.d.mts",
     "type": "module",
+    "dependencies": {
+        "discord-api-types": "^0.38.40"
+    },
     "devDependencies": {
         "@types/node": "^25.3.0",
         "prettier": "^3.8.1",
@@ -58,8 +61,5 @@
     "private": false,
     "publishConfig": {
         "access": "public"
-    },
-    "dependencies": {
-        "discord-api-types": "^0.38.40"
     }
 }
