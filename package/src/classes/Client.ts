@@ -1,10 +1,10 @@
 import { ActivityTypes, GatewayOpcodes } from "@/utils/constants";
+import { ClientUser } from "@/classes/ClientUser";
 import { Endpoints } from "@/utils/endpoints";
 import { EventHandler } from "@/classes/EventHandler";
 import { GuildsError } from "@/classes/GuildsError";
 import { parseIntents } from "@/utils/parse-intents";
 import { RESTManager } from "@/classes/RESTManager";
-import { User } from "@/classes/User";
 import type {
     ClientEvents,
     ClientPresence,
@@ -43,7 +43,7 @@ export class Client {
     public ws?: WebSocket;
 
     /** Client user, or null if not ready */
-    public user: User | null = null!;
+    public user: ClientUser | null = null!;
 
     /** Current presence information */
     public presence: ClientPresence = {
@@ -108,7 +108,7 @@ export class Client {
             throw new GuildsError("Failed to connect to Discord", "DiscordAPIError");
         }
 
-        this.user = new User(this, userRes.data)!;
+        this.user = new ClientUser(this, userRes.data)!;
         this.lastHeartbeatAck = true;
         this.destroyed = false;
         this.#connectWebSocket(res.data.url);

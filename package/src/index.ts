@@ -9,6 +9,7 @@ export * from "@/utils/parse-intents";
 
 // Classes
 export * from "@/classes/Client";
+export * from "@/classes/ClientUser";
 export * from "@/classes/EventHandler";
 export * from "@/classes/Guild";
 export * from "@/classes/GuildsError";

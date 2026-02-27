@@ -15,10 +15,7 @@ export class User {
     /** The user's banner color as a hex color*/
     public accentColorHex: string | null;
 
-    /** The user's about me (client only) */
-    public bio: string | null;
-
-    /** Whether the user is an application (bot) */
+    /** Whether the user is a bot */
     public bot: boolean = false;
 
     /** The client associated with this user */
@@ -30,14 +27,8 @@ export class User {
     /** The user's display name or bot's application name */
     public displayName?: string;
 
-    /** The user's email (user clients only) */
-    public email?: string;
-
     /** The user's ID snowflake */
     public id: string;
-
-    /** Whether the user has two factor authentication enabled (user clients only) */
-    public mfaEnabled?: boolean;
 
     /** The data from Discord's API provided as-is */
     public rawData: APIUser;
@@ -48,9 +39,6 @@ export class User {
     /** The user's username (not to be confused with display name or tag) */
     public username: string;
 
-    /** Whether the user's email is verified (user clients only) */
-    public verified?: boolean;
-
     public constructor(client: Client, data: APIUser) {
         if (!client || !(client instanceof Client)) {
             throw new GuildsError("Invalid client provided", "DiscordAPIError");
@@ -58,18 +46,14 @@ export class User {
 
         this.accentColor = data.accent_color ?? undefined;
         this.accentColorHex = colorIntToHex(data.accent_color || null) || null;
-        this.bio = (data as any).bio ?? null;
         this.bot = data.bot || false;
         this.client = client;
         this.discriminator = data.discriminator || "0";
-        this.email = data.email ?? undefined;
         this.displayName = data.global_name ?? undefined;
         this.id = data.id;
-        this.mfaEnabled = data.mfa_enabled;
         this.rawData = data;
         this.system = data.system || false;
         this.username = data.username;
-        this.verified = data.verified;
 
         return this;
     }
