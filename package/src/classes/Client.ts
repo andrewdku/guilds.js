@@ -16,7 +16,7 @@ import type {
     GatewayPayload,
 } from "@/types";
 
-export class Client {
+export class Client extends EventHandler<ClientEvents> {
     #token: string;
 
     public destroyed: boolean = false;
@@ -38,6 +38,8 @@ export class Client {
     public ws?: WebSocket;
 
     public constructor(props: ClientProps) {
+        super();
+
         if (!props || typeof props !== "object") {
             throw new GuildsError("Invalid client props provided", "ClientPropsError");
         }
