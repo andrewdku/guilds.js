@@ -102,11 +102,11 @@ export class Client {
 
         this.ws = new WebSocket(`${url}?v=10&encoding=json`);
         this.ws.onopen = () => {
-            this.events.emit("debug", "WebSocket connected");
+            this.emit("debug", "WebSocket connected");
         };
 
         this.ws.onerror = (error) => {
-            this.events.emit("error", `WebSocket error: ${error}`);
+            this.emit("error", `WebSocket error: ${error}`);
         };
 
         this.ws.onmessage = (event) => {
@@ -114,10 +114,7 @@ export class Client {
         };
 
         this.ws.onclose = (event) => {
-            this.events.emit(
-                "debug",
-                `WebSocket closed: ${event.reason} (${event.code})`
-            );
+            this.emit("debug", `WebSocket closed: ${event.reason} (${event.code})`);
 
             if (!this.destroyed) {
                 setTimeout(() => this.#connectWebSocket(url), 3000);
@@ -132,7 +129,7 @@ export class Client {
 
         switch (payload.op) {
             case GatewayOpcodes.Hello: {
-                this.events.emit("debug", "Received Hello event");
+                this.emit("debug", "Received Hello event");
 
                 if (this.heartbeatInterval) {
                     clearInterval(this.heartbeatInterval);
@@ -141,10 +138,7 @@ export class Client {
                 this.lastHeartbeatAck = true;
                 this.heartbeatInterval = setInterval(() => {
                     if (!this.lastHeartbeatAck) {
-                        this.events.emit(
-                            "debug",
-                            "Heartbeat ACK failed, reconnecting..."
-                        );
+                        this.emit("debug", "Heartbeat ACK failed, reconnecting...");
 
                         this.ws?.close(4000, "Heartbeat failed");
                         return;
@@ -171,7 +165,7 @@ export class Client {
                         })
                     );
 
-                    this.events.emit("debug", "Resuming  session...");
+                    this.emit("debug", "Resuming  session...");
                 } else {
                     this.ws?.send(
                         JSON.stringify({
@@ -196,7 +190,7 @@ export class Client {
                         })
                     );
 
-                    this.events.emit("debug", "Identifying...");
+                    this.emit("debug", "Identifying...");
                 }
 
                 break;
@@ -214,8 +208,8 @@ export class Client {
 
                 this.sessionId = payload.d.session_id;
                 this.ready = true;
-                this.events.emit("debug", "Received Dispatch (Ready) event");
-                this.events.emit("ready", this);
+                this.emit("debug", "Received Dispatch (Ready) event");
+                this.emit("ready", this);
 
                 break;
             }

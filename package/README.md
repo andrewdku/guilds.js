@@ -60,7 +60,7 @@ const client = new Client({
     ],
 });
 
-client.events.once("ready", (c) => {
+client.once("ready", (c) => {
     console.log(`Logged in as ${c.user.tag}!`);
 });
 
