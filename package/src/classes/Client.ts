@@ -16,27 +16,78 @@ import type {
     GatewayPayload,
 } from "@/types";
 
+/**
+ * Class representing a Discord client
+ */
 export class Client extends EventHandler<ClientEvents> {
     #token: string;
 
+    /**
+     * Whether the client has been destroyed,
+     * used to prevent false reconnect attempts
+     */
     public destroyed: boolean = false;
-    public events = new EventHandler();
+
+    /**
+     * Heartbeat interval provided by Discord's gateway,
+     * cleared and recreated upon reconnecting
+     */
     public heartbeatInterval?: NodeJS.Timeout;
+
+    /**
+     * Parsed client intents bitfield
+     */
     public intents: number;
+
+    /**
+     * Whether the last heartbeat was acknowledged by Discord
+     */
     public lastHeartbeatAck: boolean = true;
+
+    /**
+     * The client's current presence configuration
+     */
     public presence: ClientPresence = {
         platform: "desktop",
         status: "online",
         activities: [],
     };
 
+    /**
+     * Whether the Dispatch (i.e., ready) event was received
+     */
     public ready: boolean = false;
+
+    /**
+     * REST manager used for API requests
+     */
     public rest: RESTManager;
+
+    /**
+     * Last sequence number provided by Discord's gateway,
+     * used for heartbeats and session resuming
+     */
     public sequenceNumber: number | null = null;
+
+    /**
+     * Active session ID for resuming connection
+     */
     public sessionId?: string;
+
+    /**
+     * Represents the client's Discord user
+     */
     public user: ClientUser | null = null!;
+
+    /**
+     * The WebSocket connected to Discord's gateway
+     */
     public ws?: WebSocket;
 
+    /**
+     * Instantiate a new client
+     * @param props Options such as token and intents
+     */
     public constructor(props: ClientProps) {
         super();
 
@@ -77,10 +128,18 @@ export class Client extends EventHandler<ClientEvents> {
         return this;
     }
 
+    /**
+     * Formatted bot token accessor, starting with "Bot "
+     * and used for authentication
+     */
     public get token() {
         return this.#token;
     }
 
+    /**
+     * Fetches Discord's gateway information then connects to it,
+     * and fetches the bot's user before identifying
+     */
     public async connect(): Promise<Client> {
         const res = await this.rest.get(Endpoints.gatewayBot());
         const user = await this.fetchUser("@me");
@@ -97,7 +156,11 @@ export class Client extends EventHandler<ClientEvents> {
         return this;
     }
 
-    #connectWebSocket(url: string) {
+    /**
+     * Manages the WebSocket as well as connecting and reconnecting
+     * @param url URL to connect the WebSocket to
+     */
+    #connectWebSocket(url: string): void {
         if (this.destroyed) {
             return;
         }
@@ -124,6 +187,10 @@ export class Client extends EventHandler<ClientEvents> {
         };
     }
 
+    /**
+     * Processes incoming gateway payloads
+     * @param payload Payload data from Discord's gateway
+     */
     #handleGatewayEvent(payload: GatewayPayload) {
         if (payload.s !== undefined && payload.s !== null) {
             this.sequenceNumber = payload.s;
@@ -218,6 +285,11 @@ export class Client extends EventHandler<ClientEvents> {
         }
     }
 
+    /**
+     * Sends a message to a specified channel
+     * @param channelId ID of the channel to send the message to
+     * @param props Message data, such as content
+     */
     public async createMessage(
         channelId: string,
         props: CreateMessageProps
@@ -235,6 +307,11 @@ export class Client extends EventHandler<ClientEvents> {
         });
     }
 
+    /**
+     * Fetches a guild by its ID
+     * @param id ID of the guild to fetch
+     * @returns Guild object or null
+     */
     public async fetchGuild(id: string): Promise<Guild | null> {
         const res = await this.rest.get(Endpoints.guild(id));
 
@@ -245,6 +322,11 @@ export class Client extends EventHandler<ClientEvents> {
         return new Guild(this, res.data)!;
     }
 
+    /**
+     * Fetches a user by their ID
+     * @param id ID of the user to fetch
+     * @returns User object or null
+     */
     public async fetchUser(id: string = "@me"): Promise<User | null> {
         const res = await this.rest.get(Endpoints.user(id));
 
@@ -255,6 +337,11 @@ export class Client extends EventHandler<ClientEvents> {
         return new User(this, res.data)!;
     }
 
+    /**
+     * Updates the client's presence and over the Gateway if connected
+     * @param presence New presence information
+     * @returns Client instance
+     */
     public setPresence(presence: ClientPresenceProps) {
         this.presence = { ...this.presence, ...presence } as ClientPresence;
 
@@ -283,6 +370,9 @@ export class Client extends EventHandler<ClientEvents> {
         return this;
     }
 
+    /**
+     * Disconnects from Discord's gateway and closes the WebSocket connection
+     */
     public disconnect(): void {
         if (this.heartbeatInterval) clearInterval(this.heartbeatInterval);
         this.ws?.close(1000, "Client disconnected");

@@ -1,3 +1,9 @@
+/**
+ * Converts a color integer into a hex color string
+ * @param color Color integer
+ * @param addHashSymbol Whether to add a `#` at the beginning
+ * @returns Hex color string
+ */
 export function colorIntToHex(
     color: number | null,
     addHashSymbol = false
@@ -10,6 +16,11 @@ export function colorIntToHex(
     return addHashSymbol ? `#${hex}` : hex;
 }
 
+/**
+ * Converts a hex color string into a color integer
+ * @param hex Hex color string
+ * @returns Color integer
+ */
 export function hexToColorInt(hex: string | null): number | null {
     if (!hex) {
         return null;
