@@ -1,3 +1,5 @@
+import type { ClientPresence } from "@/types";
+
 export const ActivityTypes = {
     Competing: 5,
     Custom: 4,
@@ -9,6 +11,12 @@ export const ActivityTypes = {
 
 /** The base API url for contacting Discord's v10 API */
 export const baseApiUrl = "https://discord.com/api/v10";
+
+export const defaultClientPresence: ClientPresence = {
+    platform: "desktop",
+    status: "online",
+    activities: [],
+};
 
 export const GatewayIntents = {
     AutoModerationConfiguration: 1 << 20,

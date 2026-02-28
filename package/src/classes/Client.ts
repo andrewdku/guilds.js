@@ -1,4 +1,8 @@
-import { ActivityTypes, GatewayOpcodes } from "@/utils/constants";
+import {
+    ActivityTypes,
+    defaultClientPresence,
+    GatewayOpcodes,
+} from "@/utils/constants";
 import { ClientUser } from "@/classes/ClientUser";
 import { Endpoints } from "@/utils/endpoints";
 import { EventHandler } from "@/classes/EventHandler";
@@ -47,11 +51,7 @@ export class Client extends EventHandler<ClientEvents> {
     /**
      * The client's current presence configuration
      */
-    public presence: ClientPresence = {
-        platform: "desktop",
-        status: "online",
-        activities: [],
-    };
+    public presence: ClientPresence = defaultClientPresence;
 
     /**
      * Whether the Dispatch (i.e., ready) event was received
