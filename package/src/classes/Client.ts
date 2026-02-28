@@ -310,7 +310,7 @@ export class Client extends EventHandler<ClientEvents> {
 
     /**
      * Fetches a user by their ID
-     * @param id ID of the user to fetch
+     * @param id ID of the user to fetch (default: "@me")
      * @returns User object or null
      */
     public async fetchUser(id: string = "@me"): Promise<User | null> {
