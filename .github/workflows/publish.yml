@@ -9,6 +9,11 @@ jobs:
     publish:
         runs-on: ubuntu-latest
         steps:
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  version: "10"
+
             - name: Checkout Repository
               uses: actions/checkout@v4
 
