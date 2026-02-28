@@ -38,9 +38,10 @@ export class RESTManager {
         });
 
         if (!res.ok) {
-            const body = await res.text().catch(() => null);
+            const body = JSON.parse(await res.text().catch(() => null!));
             throw new GuildsError(
-                `${body ?? res.statusText} (${res.status})`,
+                // `${body ?? res.statusText} (${res.status})`,
+                `${body.code} ${body.message} (${res.status})`,
                 "DiscordAPIError"
             );
         }
