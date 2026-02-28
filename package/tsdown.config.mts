@@ -7,6 +7,7 @@ export default defineConfig({
     entry: ["src/index.ts"],
     format: ["esm", "cjs"],
     minify: false,
+    name: "guilds.js",
     removeNodeProtocol: false,
     shims: true,
     skipNodeModulesBundle: true,
