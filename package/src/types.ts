@@ -1,4 +1,5 @@
 import type { Client } from "@/classes/Client";
+import type { Message } from "@/classes/Message";
 import type {
     ActivityTypes,
     errorScopes,
@@ -14,6 +15,7 @@ export interface AvatarURLProps {
 export type ClientEvents = {
     debug: [message: string];
     error: [error: any];
+    messageCreate: [message: Message];
     ready: [client: Client];
 };
 

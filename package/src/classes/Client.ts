@@ -3,6 +3,7 @@ import { Endpoints } from "@/utils/endpoints";
 import { EventHandler } from "@/classes/EventHandler";
 import { Guild } from "@/classes/Guild";
 import { GuildsError } from "@/classes/GuildsError";
+import { Message } from "@/classes/Message";
 import { parseIntents } from "@/utils/parse-intents";
 import { RESTManager } from "@/classes/RESTManager";
 import { User } from "@/classes/User";
@@ -257,14 +258,21 @@ export class Client extends EventHandler<ClientEvents> {
             }
 
             case GatewayOpcodes.Dispatch: {
-                if (payload.t !== "READY") {
-                    break;
-                }
+                switch (payload.t) {
+                    case "READY": {
+                        this.sessionId = payload.d.session_id;
+                        this.ready = true;
+                        this.emit("debug", "Received Dispatch (Ready) event");
+                        this.emit("ready", this);
+                        break;
+                    }
 
-                this.sessionId = payload.d.session_id;
-                this.ready = true;
-                this.emit("debug", "Received Dispatch (Ready) event");
-                this.emit("ready", this);
+                    case "MESSAGE_CREATE": {
+                        const message = new Message(this, payload.d);
+                        this.emit("messageCreate", message);
+                        break;
+                    }
+                }
 
                 break;
             }
