@@ -1,8 +1,3 @@
-import {
-    ActivityTypes,
-    defaultClientPresence,
-    GatewayOpcodes,
-} from "@/utils/constants";
 import { ClientUser } from "@/classes/ClientUser";
 import { Endpoints } from "@/utils/endpoints";
 import { EventHandler } from "@/classes/EventHandler";
@@ -11,6 +6,11 @@ import { GuildsError } from "@/classes/GuildsError";
 import { parseIntents } from "@/utils/parse-intents";
 import { RESTManager } from "@/classes/RESTManager";
 import { User } from "@/classes/User";
+import {
+    ActivityTypes,
+    defaultClientPresence,
+    GatewayOpcodes,
+} from "@/utils/constants";
 import type {
     ClientEvents,
     ClientPresence,
@@ -20,9 +20,7 @@ import type {
     GatewayPayload,
 } from "@/types";
 
-/**
- * Class representing a Discord client
- */
+/** Class representing a Discord client */
 export class Client extends EventHandler<ClientEvents> {
     #token: string;
 
@@ -38,29 +36,19 @@ export class Client extends EventHandler<ClientEvents> {
      */
     public heartbeatInterval?: NodeJS.Timeout;
 
-    /**
-     * Parsed client intents bitfield
-     */
+    /** Parsed client intents bitfield */
     public intents: number;
 
-    /**
-     * Whether the last heartbeat was acknowledged by Discord
-     */
+    /** Whether the last heartbeat was acknowledged by Discord */
     public lastHeartbeatAck: boolean = true;
 
-    /**
-     * The client's current presence configuration
-     */
+    /** The client's current presence configuration */
     public presence: ClientPresence = defaultClientPresence;
 
-    /**
-     * Whether the Dispatch (i.e., ready) event was received
-     */
+    /** Whether the Dispatch (i.e., ready) event was received */
     public ready: boolean = false;
 
-    /**
-     * REST manager used for API requests
-     */
+    /** REST manager used for API requests */
     public rest: RESTManager;
 
     /**
@@ -69,19 +57,13 @@ export class Client extends EventHandler<ClientEvents> {
      */
     public sequenceNumber: number | null = null;
 
-    /**
-     * Active session ID for resuming connection
-     */
+    /** Active session ID for resuming connection */
     public sessionId?: string;
 
-    /**
-     * Represents the client's Discord user
-     */
+    /** Represents the client's Discord user */
     public user: ClientUser | null = null!;
 
-    /**
-     * The WebSocket connected to Discord's gateway
-     */
+    /** The WebSocket connected to Discord's gateway */
     public ws?: WebSocket;
 
     /**
@@ -376,9 +358,7 @@ export class Client extends EventHandler<ClientEvents> {
         return this;
     }
 
-    /**
-     * Disconnects from Discord's gateway and closes the WebSocket connection
-     */
+    /** Disconnects from Discord's gateway and closes the WebSocket connection */
     public disconnect(): void {
         if (this.heartbeatInterval) clearInterval(this.heartbeatInterval);
         this.ws?.close(1000, "Client disconnected");
