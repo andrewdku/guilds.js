@@ -18,6 +18,16 @@ export const defaultClientPresence: ClientPresence = {
     activities: [],
 };
 
+export const errorScopes = [
+    "ClientIntentsError",
+    "ClientPropsError",
+    "ClientTokenError",
+    "CreateMessageError",
+    "DiscordAPIError",
+    "GatewayError",
+    "WebSocketError",
+] as const;
+
 export const GatewayIntents = {
     AutoModerationConfiguration: 1 << 20,
     AutoModerationExecution: 1 << 21,

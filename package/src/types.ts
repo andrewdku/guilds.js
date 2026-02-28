@@ -1,4 +1,10 @@
-import type { ActivityTypes, Client, GatewayIntents, GatewayOpcodes } from "@/index";
+import type { Client } from "@/classes/Client";
+import type {
+    ActivityTypes,
+    errorScopes,
+    GatewayIntents,
+    GatewayOpcodes,
+} from "@/utils/constants";
 
 export interface AvatarURLProps {
     size: 128 | 256 | 512 | 1024 | 2048 | 4096;
@@ -28,16 +34,6 @@ export interface ClientProps {
 export type CreateMessageProps = Partial<{
     content: string;
 }>;
-
-const errorScopes = [
-    "ClientIntentsError",
-    "ClientPropsError",
-    "ClientTokenError",
-    "CreateMessageError",
-    "DiscordAPIError",
-    "GatewayError",
-    "WebSocketError",
-] as const;
 
 export type ErrorScope = (typeof errorScopes)[keyof typeof errorScopes];
 export type GatewayIntent =
