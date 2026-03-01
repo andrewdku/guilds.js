@@ -1,7 +1,7 @@
 {
     "name": "guilds.js",
     "description": "Node.js library for using the Discord API",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "license": "MIT",
     "scripts": {
         "build": "tsdown",
