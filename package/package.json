@@ -23,7 +23,7 @@
         "discord-api-types": "^0.38.40"
     },
     "devDependencies": {
-        "@types/node": "^25.3.0",
+        "@types/node": "^25.3.3",
         "prettier": "^3.8.1",
         "tsdown": "^0.20.3",
         "typescript": "^5.9.3"
