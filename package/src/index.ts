@@ -7,9 +7,11 @@ export * from "@/utils/endpoints";
 
 // Functions
 export * from "@/functions/color-convert";
+export * from "@/functions/gateway-events";
 export * from "@/functions/parse-intents";
 
 // Classes
+export * from "@/classes/CacheManager";
 export * from "@/classes/Client";
 export * from "@/classes/ClientUser";
 export * from "@/classes/EventHandler";

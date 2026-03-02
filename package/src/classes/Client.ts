@@ -1,9 +1,11 @@
+import { CacheManager } from "@/classes/CacheManager";
 import { ClientUser } from "@/classes/ClientUser";
 import { Endpoints } from "@/utils/endpoints";
 import { EventHandler } from "@/classes/EventHandler";
 import { Guild } from "@/classes/Guild";
 import { GuildsError } from "@/classes/GuildsError";
 import { handleGatewayEvents } from "@/functions/gateway-events";
+import { Message } from "@/classes/Message";
 import { parseIntents } from "@/functions/parse-intents";
 import { RESTManager } from "@/classes/RESTManager";
 import { User } from "@/classes/User";
@@ -66,6 +68,13 @@ export class Client extends EventHandler<ClientEvents> {
 
     /** The WebSocket connected to Discord's gateway */
     public ws?: WebSocket;
+
+    /** Internal cache for API structures */
+    public cache = {
+        guilds: new CacheManager<Guild>(),
+        messages: new CacheManager<Message>(),
+        users: new CacheManager<User>(),
+    } as const;
 
     /**
      * Instantiate a new client
@@ -289,31 +298,59 @@ export class Client extends EventHandler<ClientEvents> {
     /**
      * Fetches a guild by its ID
      * @param id ID of the guild to fetch
+     * @param options Fetch options
      * @returns Guild object or null
      */
-    public async fetchGuild(id: string): Promise<Guild | null> {
+    public async fetchGuild(
+        id: string,
+        options?: { force?: boolean }
+    ): Promise<Guild | null> {
+        if (!options?.force) {
+            const cached = this.cache.guilds.get(id);
+
+            if (cached) {
+                return cached;
+            }
+        }
+
         const res = await this.rest.get(Endpoints.guild(id));
 
         if (!res.ok) {
             return null;
         }
 
-        return new Guild(this, res.data)!;
+        const guild = new Guild(this, res.data);
+        this.cache.guilds.set(id, guild);
+        return guild;
     }
 
     /**
      * Fetches a user by their ID
      * @param id ID of the user to fetch (default: "@me")
+     * @param options Fetch options
      * @returns User object or null
      */
-    public async fetchUser(id: string = "@me"): Promise<User | null> {
+    public async fetchUser(
+        id: string = "@me",
+        options?: { force?: boolean }
+    ): Promise<User | null> {
+        if (!options?.force) {
+            const cached = this.cache.users.get(id);
+
+            if (cached) {
+                return cached;
+            }
+        }
+
         const res = await this.rest.get(Endpoints.user(id));
 
         if (!res.ok) {
             return null;
         }
 
-        return new User(this, res.data)!;
+        const user = new User(this, res.data);
+        this.cache.users.set(id, user);
+        return user;
     }
 
     /**

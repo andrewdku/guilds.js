@@ -12,6 +12,7 @@ export function handleGatewayEvents(client: Client, payload: GatewayPayload): vo
         case "MESSAGE_CREATE": {
             const message = new Message(client, payload.d);
             client.emit("messageCreate", message);
+            client.cache.messages.set(message.id, message);
             break;
         }
 
