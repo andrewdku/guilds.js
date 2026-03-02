@@ -4,6 +4,7 @@ export type * from "@/types";
 // Utilities
 export * from "@/utils/constants";
 export * from "@/utils/endpoints";
+export * from "@/utils/formatting";
 
 // Functions
 export * from "@/functions/color-convert";
