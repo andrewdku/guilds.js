@@ -3,8 +3,8 @@ import { Endpoints } from "@/utils/endpoints";
 import { EventHandler } from "@/classes/EventHandler";
 import { Guild } from "@/classes/Guild";
 import { GuildsError } from "@/classes/GuildsError";
-import { handleGatewayDispatch } from "@/utils/gateway-events";
-import { parseIntents } from "@/utils/parse-intents";
+import { handleGatewayEvents } from "@/functions/gateway-events";
+import { parseIntents } from "@/functions/parse-intents";
 import { RESTManager } from "@/classes/RESTManager";
 import { User } from "@/classes/User";
 import {
@@ -258,7 +258,7 @@ export class Client extends EventHandler<ClientEvents> {
             }
 
             case GatewayOpcodes.Dispatch: {
-                handleGatewayDispatch(this, payload);
+                handleGatewayEvents(this, payload);
                 break;
             }
         }

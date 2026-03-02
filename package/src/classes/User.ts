@@ -1,7 +1,7 @@
 import type { APIUser } from "discord-api-types/v10";
 import type { AvatarURLProps } from "@/types";
 import { Client } from "@/classes/Client";
-import { colorIntToHex } from "@/utils/color-convert";
+import { colorIntToHex } from "@/functions/color-convert";
 import { GuildsError } from "@/classes/GuildsError";
 
 /**

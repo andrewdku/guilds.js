@@ -2,10 +2,12 @@
 export type * from "@/types";
 
 // Utilities
-export * from "@/utils/color-convert";
 export * from "@/utils/constants";
 export * from "@/utils/endpoints";
-export * from "@/utils/parse-intents";
+
+// Functions
+export * from "@/functions/color-convert";
+export * from "@/functions/parse-intents";
 
 // Classes
 export * from "@/classes/Client";
