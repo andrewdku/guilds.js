@@ -2,7 +2,7 @@
   <img
     alt="guilds.js Logo"
     width="85"
-    src="https://cdn.discordapp.com/attachments/1025091872198250597/1476568628877856801/logo-round.png?ex=69a19932&is=69a047b2&hm=c72b4ec17e200d4103f24e6b3fecf02de5cd4e379e4ded951035b54494d2beb5&"
+    src="https://j7oyzrlowjq7eyu0.public.blob.vercel-storage.com/guildsjs-logo-round.png"
   />
 </div>
 
