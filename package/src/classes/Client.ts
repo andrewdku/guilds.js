@@ -9,9 +9,12 @@ import { handleGatewayEvents } from "@/functions/gateway-events";
 import { Message } from "@/classes/Message";
 import { parseIntents } from "@/functions/parse-intents";
 import { RESTManager } from "@/classes/RESTManager";
+import { TextChannel } from "@/classes/TextChannel";
 import { User } from "@/classes/User";
+import { VoiceChannel } from "@/classes/VoiceChannel";
 import {
     ActivityTypes,
+    ChannelTypes,
     defaultClientPresence,
     GatewayOpcodes,
 } from "@/utils/constants";
@@ -323,7 +326,37 @@ export class Client extends EventHandler<ClientEvents> {
             return null;
         }
 
-        const channel = new Channel(this, res.data);
+        const data = res.data as any;
+        let channel: AnyChannel;
+        let guild: Guild | null = null;
+
+        if (data.guild_id) {
+            guild =
+                this.cache.guilds.get(data.guild_id) ??
+                (await this.fetchGuild(data.guild_id, options));
+        }
+
+        if (guild && data.type !== undefined && data.type !== null) {
+            switch (data.type) {
+                case ChannelTypes.GuildText: {
+                    channel = new TextChannel(this, guild, res.data);
+                    break;
+                }
+
+                case ChannelTypes.GuildVoice: {
+                    channel = new VoiceChannel(this, guild, res.data);
+                    break;
+                }
+
+                default: {
+                    channel = new Channel(this, res.data);
+                    break;
+                }
+            }
+        } else {
+            channel = new Channel(this, res.data);
+        }
+
         this.cache.channels.set(id, channel);
         return channel as T;
     }
