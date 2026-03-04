@@ -9,6 +9,7 @@ import type {
     errorScopes,
     GatewayIntents,
     GatewayOpcodes,
+    GatewayEvents,
 } from "@/utils/constants";
 
 export type AnyChannel = Channel | TextChannel | VoiceChannel;
@@ -54,6 +55,10 @@ export type CreateMessageProps = Partial<{
 
 export type ErrorScope = (typeof errorScopes)[keyof typeof errorScopes];
 
+export type GatewayEvent =
+    | keyof typeof GatewayEvents
+    | (typeof GatewayEvents)[keyof typeof GatewayEvents];
+
 export type GatewayIntent =
     | keyof typeof GatewayIntents
     | (typeof GatewayIntents)[keyof typeof GatewayIntents];
@@ -61,16 +66,18 @@ export type GatewayIntent =
 export type GatewayOpcode = (typeof GatewayOpcodes)[keyof typeof GatewayOpcodes];
 
 export interface GatewayPayload {
-    op: GatewayOpcode;
     d?: any;
+    op: GatewayOpcode;
     s?: number | null;
-    t?: string | null;
+    t?: GatewayEvent | (string & {}) | null;
 }
 
 export type HTTPRequestMethod = "DELETE" | "GET" | "PATCH" | "POST" | "PUT";
-export type If<Condition extends boolean, Then, Else = never> = Condition extends true
-    ? Then
-    : Else;
+export type If<
+    Condition extends boolean,
+    Then,
+    Else = never,
+> = Condition extends true ? Then : Else;
 
 export type IntentsResolvable = number | number[] | GatewayIntent[];
 

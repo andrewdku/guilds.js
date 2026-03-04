@@ -1,5 +1,6 @@
 import type { GatewayPayload } from "@/types";
 import { Client } from "@/classes/Client";
+import { GatewayEvents } from "@/utils/constants";
 import { Message } from "@/classes/Message";
 
 /**
@@ -13,14 +14,14 @@ export function handleGatewayEvents(client: Client, payload: GatewayPayload): vo
     }
 
     switch (payload.t) {
-        case "MESSAGE_CREATE": {
+        case GatewayEvents.MessageCreate: {
             const message = new Message(client, payload.d);
             client.emit("messageCreate", message);
             client.cache.messages.set(message.id, message);
             break;
         }
 
-        case "READY": {
+        case GatewayEvents.Ready: {
             client.sessionId = payload.d.session_id;
             client.ready = true;
             client.emit("debug", "Received Dispatch (Ready) event");
