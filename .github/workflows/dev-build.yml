@@ -33,9 +33,9 @@ jobs:
                   import { execSync } from 'node:child_process';
 
                   try {
-                    // const pkgJson = await readFile('./package/package.json', 'utf8');
-                    // const { name: pkgName } = JSON.parse(pkgJson);
-                    const pkgName = "guilds.js";
+                    const pkgJson = await readFile('./package/package.json', 'utf8');
+                    const { name: pkgName } = JSON.parse(pkgJson);
+                    // const pkgName = "guilds.js";
 
                     const stdout = execSync(
                       `pnpm view ${pkgName} versions --json`,
@@ -96,7 +96,7 @@ jobs:
             - name: Generate development version
               id: version
               run: |
-                  DEV_VERSION="0.0.0-dev.$(date -u +%Y%m%d%H%M)"
+                  DEV_VERSION="$(node -e "console.log(require('./package/package.json').version)")-dev.$(date -u +%Y%m%d%H%M)"
                   echo "DEV_VERSION=$DEV_VERSION" >> $GITHUB_ENV
                   echo "DEV_VERSION=$DEV_VERSION" >> $GITHUB_OUTPUT
                   node -e "
@@ -104,7 +104,7 @@ jobs:
                     const pkgPath = './package/package.json';
                     const pkg = require(pkgPath);
                     pkg.version = '$DEV_VERSION';
-                    fs.writeFileSync(pkgPath, JSON.stringify(pkg,null,2));
+                    fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
                   "
 
             - name: Publish package
