@@ -4,7 +4,7 @@ export default defineConfig({
     cjsDefault: true,
     clean: true,
     dts: true,
-    entry: ["src/**/*.ts"],
+    entry: ["src/index.ts"],
     format: "cjs",
     minify: false,
     name: "guilds.js",
