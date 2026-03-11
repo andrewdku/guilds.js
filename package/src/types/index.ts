@@ -1,5 +1,6 @@
 import type { Gateway } from "@/classes/gateway"
 import type { RESTManager } from "@/classes/rest-manager"
+import type { APIUser } from "@/discord-api"
 
 export interface ClientProps {
     gateway: Gateway
@@ -10,7 +11,20 @@ export interface ClientProps {
 export type ConstValues<T> = T[keyof T]
 
 export type GatewayEventMap = {
-    READY: [data: { user: any; session_id: string }]
+    [K in keyof GatewayEvents]: [
+        event: {
+            data: GatewayEvents[K]
+            gateway: Gateway
+            rest: RESTManager
+        },
+    ]
+}
+
+export interface GatewayEvents {
+    READY: {
+        user: APIUser
+        session_id: string
+    }
 }
 
 export interface GatewayProps {
