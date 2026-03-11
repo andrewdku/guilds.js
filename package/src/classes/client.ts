@@ -8,7 +8,7 @@ export class Client {
 
     public constructor(props: ClientProps) {
         if (!props || !props.gateway || !props.rest) {
-            throw new TypeError()
+            throw new TypeError("Invalid props provided")
         }
 
         this.gateway = props.gateway
