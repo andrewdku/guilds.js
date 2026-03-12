@@ -29,4 +29,4 @@ Pull requests are welcome. For major changes, make sure to open an issue first t
 
 ## License
 
-Licensed under the [MIT License](LICENSE).
+See [LICENSE](LICENSE) for more information.

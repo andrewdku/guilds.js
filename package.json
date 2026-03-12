@@ -2,7 +2,7 @@
     "name": "@guilds/repo",
     "homepage": "https://guilds.js.org",
     "version": "0.0.0",
-    "license": "MIT",
+    "license": "UNLICENSED",
     "private": true,
     "workspaces": [
         "docs/",

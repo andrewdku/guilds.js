@@ -3,7 +3,7 @@
     "description": "Node.js library for using Discord's API and gateway",
     "homepage": "https://guilds.js.org",
     "version": "1.0.0",
-    "license": "MIT",
+    "license": "UNLICENSED",
     "scripts": {
         "build": "tsdown",
         "format": "prettier --write . --config ../package.json --ignore-path ../.prettierignore",

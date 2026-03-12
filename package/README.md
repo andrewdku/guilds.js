@@ -50,4 +50,4 @@ client.gateway.connect()
 
 ## License
 
-Licensed under the [MIT License](LICENSE).
+See [LICENSE](LICENSE) for more information.
