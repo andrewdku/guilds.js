@@ -13,5 +13,7 @@ export class Client {
 
         this.gateway = props.gateway
         this.rest = props.rest
+
+        return this
     }
 }

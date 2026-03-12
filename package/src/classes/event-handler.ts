@@ -3,10 +3,11 @@ export class EventHandler<Events extends Record<string, any[]>> {
         [K in keyof Events]?: Array<(...args: Events[K]) => any>
     } = {}
 
-    public on<K extends keyof Events>(
-        event: K,
-        listener: (...args: Events[K]) => any
-    ) {
+    public constructor() {
+        return this
+    }
+
+    public on<K extends keyof Events>(event: K, listener: (...args: Events[K]) => any) {
         if (!this.#listeners[event]) {
             this.#listeners[event] = []
         }
@@ -15,10 +16,7 @@ export class EventHandler<Events extends Record<string, any[]>> {
         return this
     }
 
-    public once<K extends keyof Events>(
-        event: K,
-        listener: (...args: Events[K]) => any
-    ) {
+    public once<K extends keyof Events>(event: K, listener: (...args: Events[K]) => any) {
         const wrapped = (...args: Events[K]) => {
             listener(...args)
             this.off(event, wrapped)
@@ -28,17 +26,13 @@ export class EventHandler<Events extends Record<string, any[]>> {
         return this
     }
 
-    public off<K extends keyof Events>(
-        event: K,
-        listener: (...args: Events[K]) => any
-    ) {
+    public off<K extends keyof Events>(event: K, listener: (...args: Events[K]) => any) {
         if (!this.#listeners[event]) {
             return this
         }
 
-        this.#listeners[event] = this.#listeners[event]!.filter(
-            (l) => l !== listener
-        )
+        this.#listeners[event] = this.#listeners[event]!.filter((l) => l !== listener)
+
         return this
     }
 

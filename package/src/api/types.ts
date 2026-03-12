@@ -154,9 +154,7 @@ export type APIChannelDefaultForumLayout = ConstValues<
 >
 
 /** @see https://docs.discord.com/developers/resources/channel#channel-object-sort-order-types */
-export type APIChannelDefaultSortOrder = ConstValues<
-    typeof APIChannelDefaultSortOrders
->
+export type APIChannelDefaultSortOrder = ConstValues<typeof APIChannelDefaultSortOrders>
 
 /** @see https://docs.discord.com/developers/resources/message#channel-mention-object */
 export interface APIChannelMention {
@@ -176,9 +174,7 @@ export interface APIChannelOverwrite {
 
 export type APIChannelOverwriteType = ConstValues<typeof APIChannelOverwriteTypes>
 export type APIChannelType = ConstValues<typeof APIChannelTypes>
-export type APIChannelVideoQualityMode = ConstValues<
-    typeof APIChannelVideoQualityModes
->
+export type APIChannelVideoQualityMode = ConstValues<typeof APIChannelVideoQualityModes>
 
 /** @see https://docs.discord.com/developers/resources/user#collectibles */
 export interface APICollectibles {
@@ -333,9 +329,7 @@ export interface APIGuild {
 }
 
 /** @see https://docs.discord.com/developers/resources/guild#guild-object-guild-nsfw-level */
-export type APIGuildAgeRestrictionLevel = ConstValues<
-    typeof APIGuildAgeRestrictionLevels
->
+export type APIGuildAgeRestrictionLevel = ConstValues<typeof APIGuildAgeRestrictionLevels>
 
 /** @see https://docs.discord.com/developers/resources/guild#guild-object-default-message-notification-level */
 export type APIGuildDefaultMessageNotificationLevel = ConstValues<
@@ -383,14 +377,10 @@ export type APIGuildMFALevel = ConstValues<typeof APIGuildMFALevels>
 export type APIGuildPremiumTier = ConstValues<typeof APIGuildPremiumTiers>
 
 /** @see https://docs.discord.com/developers/resources/guild#guild-object-system-channel-flags */
-export type APIGuildSystemChannelFlag = ConstValues<
-    typeof APIGuildSystemChannelFlags
->
+export type APIGuildSystemChannelFlag = ConstValues<typeof APIGuildSystemChannelFlags>
 
 /** @see https://docs.discord.com/developers/resources/guild#guild-object-verification-level */
-export type APIGuildVerificationLevel = ConstValues<
-    typeof APIGuildVerificationLevels
->
+export type APIGuildVerificationLevel = ConstValues<typeof APIGuildVerificationLevels>
 
 /** @see https://docs.discord.com/developers/resources/voice#voice-region-object */
 export interface APIGuildVoiceRegion {

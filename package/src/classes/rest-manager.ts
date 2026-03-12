@@ -19,6 +19,7 @@ export class RESTManager {
         }
 
         this.#token = parseToken(props.token)
+        return this
     }
 
     public async request<T = unknown>(
@@ -28,11 +29,11 @@ export class RESTManager {
     ) {
         const res = await fetch(baseApiUrl + endpoint, {
             method,
+            body: options?.body ? JSON.stringify(options.body) : undefined,
             headers: {
                 Authorization: this.#token,
                 "Content-Type": "application/json",
             },
-            body: options?.body ? JSON.stringify(options.body) : undefined,
         })
 
         const json = (await res.json().catch(() => null)) as T

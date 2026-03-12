@@ -22,7 +22,7 @@
     "prettier": {
         "arrowParens": "always",
         "jsxSingleQuote": false,
-        "printWidth": 85,
+        "printWidth": 90,
         "quoteProps": "as-needed",
         "semi": false,
         "singleQuote": false,
