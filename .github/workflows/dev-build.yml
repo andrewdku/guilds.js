@@ -83,6 +83,21 @@ jobs:
                       process.exit(0)
                     }
 
+
+                    let deprecatedMsg = ""
+
+                    try {
+                      deprecatedMsg = execSync(
+                        `pnpm view ${pkgName}@${previous} deprecated`,
+                        { encoding: 'utf8' }
+                      ).trim()
+                    } catch {}
+
+                    if (deprecatedMsg) {
+                      console.log(`${pkgName}@${previous} is already deprecated.`)
+                      process.exit(0)
+                    }
+
                     console.log(`Deprecating ${pkgName}@${previous}...`)
 
                     execSync(
