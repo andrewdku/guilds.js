@@ -13,8 +13,8 @@ export default defineConfig({
             favicon: "favicon.svg",
             plugins: [
                 starlightTypeDoc({
-                    entryPoints: ["../package/src/index.ts"],
-                    tsconfig: "../package/tsconfig.json",
+                    entryPoints: ["../packages/guilds.js/src/index.ts"],
+                    tsconfig: "../packages/guilds.js/tsconfig.json",
                     output: "api",
                 }),
                 rapideTheme(),

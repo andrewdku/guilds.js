@@ -30,13 +30,13 @@ jobs:
             - name: Generate development version
               id: version
               run: |
-                  DEV_VERSION="$(node -e "console.log(require('./package/package.json').version)")-dev.$(date -u +%Y%m%d%H%M)"
+                  DEV_VERSION="$(node -e "console.log(require('./packages/guilds.js/package.json').version)")-dev.$(date -u +%Y%m%d%H%M)"
                   echo "DEV_VERSION=$DEV_VERSION" >> $GITHUB_ENV
                   echo "DEV_VERSION=$DEV_VERSION" >> $GITHUB_OUTPUT
 
                   node -e "
                     const fs = require('node:fs');
-                    const pkgPath = './package/package.json';
+                    const pkgPath = './packages/guilds.js/package.json';
                     const pkg = require(pkgPath);
                     pkg.version = '$DEV_VERSION';
                     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
@@ -49,7 +49,7 @@ jobs:
                   import { execSync } from 'node:child_process'
 
                   try {
-                    const pkgJson = await readFile('./package/package.json', 'utf8')
+                    const pkgJson = await readFile('./packages/guilds.js/package.json', 'utf8')
                     const { name: pkgName, version: currentVersion } = JSON.parse(pkgJson)
 
                     const stdout = execSync(
