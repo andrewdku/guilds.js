@@ -213,7 +213,7 @@ export const InteractionTypes = {
     APPLICATION_COMMAND: 2,
     APPLICATION_COMMAND_AUTOCOMPLETE: 4,
     MESSAGE_COMPONENT: 3,
-    MODAL_SUBMIT: 4,
+    MODAL_SUBMIT: 5,
     PING: 1,
 } as const
 
