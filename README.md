@@ -21,7 +21,7 @@ This monorepo houses both the documentation site and the npm library for guilds.
 
 - **`docs/`**: Contains the source of the [documentation site](https://guilds.js.org). Everything under `src/content/docs/api/` is an automatically generated folder for API references.
 
-- **`packages/create/`**: Contains the source code of the [quickstart CLI](https://npmjs.com/package/create-guilds.js).
+- **`packages/create-guilds.js/`**: Contains the source code of the [create-guilds.js CLI](https://npmjs.com/package/create-guilds.js).
 
 - **`packages/guilds.js/`**: Contains the source code of the main [npm package](https://npmjs.com/package/guilds.js).
 
