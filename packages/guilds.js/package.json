@@ -5,11 +5,10 @@
     "version": "1.0.0",
     "license": "UNLICENSED",
     "scripts": {
-        "build": "tsdown",
+        "build": "tsdown; node ./scripts/version.mjs",
         "format": "prettier --write . --config ../../package.json --ignore-path ../../.prettierignore",
         "lint": "tsc --noEmit; prettier --check . --config ../../package.json --ignore-path ../../.prettierignore",
-        "prepublish": "tsdown",
-        "postbuild": "node -e \"const fs=require('fs');const v=require('./package.json').version;fs.appendFileSync('dist/index.cjs','\\nexports.version = \\\"'+v+'\\\";\\n');fs.appendFileSync('dist/index.d.cts','\\nexport declare const version = \\\"'+v+'\\\";\\n');\""
+        "prepublish": "tsdown; node ./scripts/version.mjs"
     },
     "main": "./dist/index.cjs",
     "types": "./dist/index.d.cts",
