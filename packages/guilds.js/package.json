@@ -5,10 +5,10 @@
     "version": "1.0.0",
     "license": "UNLICENSED",
     "scripts": {
-        "build": "tsdown; node ./scripts/version.mjs",
+        "build": "tsdown; node ../../scripts/add-version.mjs",
         "format": "prettier --write . --config ../../package.json --ignore-path ../../.prettierignore",
         "lint": "tsc --noEmit; prettier --check . --config ../../package.json --ignore-path ../../.prettierignore",
-        "prepublish": "tsdown; node ./scripts/version.mjs"
+        "prepublish": "tsdown; node ../../scripts/add-version.mjs"
     },
     "main": "./dist/index.cjs",
     "types": "./dist/index.d.cts",
