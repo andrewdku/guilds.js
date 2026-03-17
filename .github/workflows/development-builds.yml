@@ -29,10 +29,10 @@ jobs:
 
             - name: Generate development version
               id: version
-              run: node ./scripts/dev-build/gen-version.mjs
+              run: node ./scripts/gen-version.mjs
 
             - name: Deprecate previous dev version
-              run: node ./scripts/dev-build/deprecate.mjs
+              run: node ./scripts/deprecate.mjs
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
