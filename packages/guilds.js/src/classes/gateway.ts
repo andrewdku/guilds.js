@@ -2,6 +2,7 @@ import type { GatewayEventMap, GatewayProps } from "@/types"
 import { EventHandler } from "@/classes/event-handler"
 import { RESTManager } from "@/classes/rest-manager"
 import { parseToken } from "@/functions/parse-token"
+import { Endpoints } from "@/api"
 
 /** Connects to Discord Gateway */
 export class Gateway {
@@ -58,7 +59,7 @@ export class Gateway {
      * @returns Gateway instance
      */
     public async connect() {
-        const res = await this.rest.get<{ url: string }>("/gateway/bot")
+        const res = await this.rest.get<{ url: string }>(Endpoints.gatewayBot())
 
         this.ws = new WebSocket(`${res.data.url}/?v=10&encoding=json`)
         this.ws.onopen = () => {

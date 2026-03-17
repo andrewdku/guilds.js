@@ -1,4 +1,5 @@
 export type * from "@/api/types"
+export * from "@/api/endpoints"
 
 export const ApplicationCommandTypes = {
     CHAT_INPUT: 1,
