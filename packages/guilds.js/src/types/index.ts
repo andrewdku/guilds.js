@@ -8,9 +8,6 @@ export interface ClientProps {
     rest: RESTManager
 }
 
-/** Shorthand type for `(typeof T)[keyof typeof T]` */
-export type ConstValues<T> = T[keyof T]
-
 export type GatewayEventMap = {
     [K in keyof GatewayEvents]: [
         event: {
@@ -46,7 +43,7 @@ export interface GatewayEvents {
     WS_ERROR: string
 }
 
-export type GatewayIntent = ConstValues<typeof GatewayIntents>
+export type GatewayIntent = (typeof GatewayIntents)[keyof typeof GatewayIntents]
 
 export interface GatewayProps {
     intents: number
@@ -55,7 +52,7 @@ export interface GatewayProps {
 }
 
 export type HTTPMethod = "DELETE" | "GET" | "PATCH" | "POST" | "PUT"
-export type PermissionFlag = ConstValues<typeof PermissionFlags>
+export type PermissionFlag = (typeof PermissionFlags)[keyof typeof PermissionFlags]
 
 export interface RESTManagerProps {
     token: string

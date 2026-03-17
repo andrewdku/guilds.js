@@ -1,4 +1,3 @@
-import type { ConstValues } from "@/types"
 import type {
     ApplicationCommandOptionTypes,
     ApplicationCommandTypes,
@@ -89,16 +88,15 @@ export interface ApplicationCommandInteractionDataOption {
     value?: string | number | boolean
 }
 
-export type ApplicationCommandOptionType = ConstValues<
-    typeof ApplicationCommandOptionTypes
->
+export type ApplicationCommandOptionType =
+    (typeof ApplicationCommandOptionTypes)[keyof typeof ApplicationCommandOptionTypes]
 
-export type ApplicationCommandType = ConstValues<typeof ApplicationCommandTypes>
+export type ApplicationCommandType =
+    (typeof ApplicationCommandTypes)[keyof typeof ApplicationCommandTypes]
 
 /** @see https://docs.discord.com/developers/resources/application#application-object-application-event-webhook-status */
-export type ApplicationEventWebhookStatus = ConstValues<
-    typeof ApplicationEventWebhookStatuses
->
+export type ApplicationEventWebhookStatus =
+    (typeof ApplicationEventWebhookStatuses)[keyof typeof ApplicationEventWebhookStatuses]
 
 /** @see https://docs.discord.com/developers/resources/application#install-params-object */
 export interface ApplicationInstallParams {
@@ -110,7 +108,8 @@ export interface ApplicationInstallParams {
 export type ApplicationInstallParamsScope = (typeof ApplicationInstallParamScopes)[number]
 
 /** @see https://docs.discord.com/developers/resources/application#application-object-application-integration-types */
-export type ApplicationIntegrationType = ConstValues<typeof ApplicationIntegrationTypes>
+export type ApplicationIntegrationType =
+    (typeof ApplicationIntegrationTypes)[keyof typeof ApplicationIntegrationTypes]
 
 /** @see https://docs.discord.com/developers/resources/message#attachment-object */
 export interface Attachment {
@@ -181,10 +180,12 @@ export interface Channel {
 
 export type ChannelAutoArchiveDuration = 60 | 1440 | 4320 | 10080 | (number & {})
 
-export type ChannelDefaultForumLayout = ConstValues<typeof ChannelDefaultForumLayouts>
+export type ChannelDefaultForumLayout =
+    (typeof ChannelDefaultForumLayouts)[keyof typeof ChannelDefaultForumLayouts]
 
 /** @see https://docs.discord.com/developers/resources/channel#channel-object-sort-order-types */
-export type ChannelDefaultSortOrder = ConstValues<typeof ChannelDefaultSortOrders>
+export type ChannelDefaultSortOrder =
+    (typeof ChannelDefaultSortOrders)[keyof typeof ChannelDefaultSortOrders]
 
 /** @see https://docs.discord.com/developers/resources/message#channel-mention-object */
 export interface ChannelMention {
@@ -196,13 +197,14 @@ export interface ChannelMention {
 
 /** @see https://docs.discord.com/developers/resources/channel#overwrite-object */
 export interface ChannelOverwrite {
-    id: Snowflake
-    type: number
     allow: string
     deny: string
+    id: Snowflake
+    type: number
 }
 
-export type ChannelOverwriteType = ConstValues<typeof ChannelOverwriteTypes>
+export type ChannelOverwriteType =
+    (typeof ChannelOverwriteTypes)[keyof typeof ChannelOverwriteTypes]
 
 /** @see https://docs.discord.com/developers/components/reference#channel-select-channel-select-interaction-response-structure */
 export interface ChannelSelectInteractionResponse {
@@ -214,8 +216,9 @@ export interface ChannelSelectInteractionResponse {
     values: Snowflake[]
 }
 
-export type ChannelType = ConstValues<typeof ChannelTypes>
-export type ChannelVideoQualityMode = ConstValues<typeof ChannelVideoQualityModes>
+export type ChannelType = (typeof ChannelTypes)[keyof typeof ChannelTypes]
+export type ChannelVideoQualityMode =
+    (typeof ChannelVideoQualityModes)[keyof typeof ChannelVideoQualityModes]
 
 /** @see https://docs.discord.com/developers/components/reference#checkbox-group-structure */
 export interface CheckboxGroup {
@@ -223,7 +226,7 @@ export interface CheckboxGroup {
     id?: number
     max_values?: number
     min_values?: number
-    options: CheckboxGroupOption[] // https://docs.discord.com/developers/components/reference#checkbox-group-option-structure
+    options: CheckboxGroupOption[]
     required?: boolean
     type: 22
 }
@@ -370,13 +373,13 @@ export interface Entitlement {
 }
 
 /** @see https://docs.discord.com/developers/resources/entitlement#entitlement-object-entitlement-types */
-export type EntitlementType = ConstValues<typeof EntitlementTypes>
+export type EntitlementType = (typeof EntitlementTypes)[keyof typeof EntitlementTypes]
 
 /** @see https://docs.discord.com/developers/components/reference#file-upload-file-upload-interaction-response-structure */
 export interface FileUploadInteractionResponse {
-    type: 19
-    id: number
     custom_id: string
+    id: number
+    type: 19
     values: Snowflake[]
 }
 
@@ -444,17 +447,16 @@ export interface Guild {
 }
 
 /** @see https://docs.discord.com/developers/resources/guild#guild-object-guild-nsfw-level */
-export type GuildAgeRestrictionLevel = ConstValues<typeof GuildAgeRestrictionLevels>
+export type GuildAgeRestrictionLevel =
+    (typeof GuildAgeRestrictionLevels)[keyof typeof GuildAgeRestrictionLevels]
 
 /** @see https://docs.discord.com/developers/resources/guild#guild-object-default-message-notification-level */
-export type GuildDefaultMessageNotificationLevel = ConstValues<
-    typeof GuildDefaultMessageNotificationLevels
->
+export type GuildDefaultMessageNotificationLevel =
+    (typeof GuildDefaultMessageNotificationLevels)[keyof typeof GuildDefaultMessageNotificationLevels]
 
 /** @see https://docs.discord.com/developers/resources/guild#guild-object-explicit-content-filter-level */
-export type GuildExplicitContentFilterLevel = ConstValues<
-    typeof GuildExplicitContentFilterLevels
->
+export type GuildExplicitContentFilterLevel =
+    (typeof GuildExplicitContentFilterLevels)[keyof typeof GuildExplicitContentFilterLevels]
 
 /** @see https://docs.discord.com/developers/resources/guild#guild-object-guild-features */
 export type GuildFeature = (typeof GuildFeatures)[number]
@@ -486,16 +488,18 @@ export interface GuildMember {
 }
 
 /** @see https://docs.discord.com/developers/resources/guild#guild-object-mfa-level */
-export type GuildMFALevel = ConstValues<typeof GuildMFALevels>
+export type GuildMFALevel = (typeof GuildMFALevels)[keyof typeof GuildMFALevels]
 
 /** @see https://docs.discord.com/developers/resources/guild#guild-object-premium-tier */
-export type GuildPremiumTier = ConstValues<typeof GuildPremiumTiers>
+export type GuildPremiumTier = (typeof GuildPremiumTiers)[keyof typeof GuildPremiumTiers]
 
 /** @see https://docs.discord.com/developers/resources/guild#guild-object-system-channel-flags */
-export type GuildSystemChannelFlag = ConstValues<typeof GuildSystemChannelFlags>
+export type GuildSystemChannelFlag =
+    (typeof GuildSystemChannelFlags)[keyof typeof GuildSystemChannelFlags]
 
 /** @see https://docs.discord.com/developers/resources/guild#guild-object-verification-level */
-export type GuildVerificationLevel = ConstValues<typeof GuildVerificationLevels>
+export type GuildVerificationLevel =
+    (typeof GuildVerificationLevels)[keyof typeof GuildVerificationLevels]
 
 /** @see https://docs.discord.com/developers/resources/voice#voice-region-object */
 export interface GuildVoiceRegion {
@@ -544,7 +548,8 @@ export interface Interaction {
 }
 
 /** @see https://docs.discord.com/developers/interactions/receiving-and-responding#interaction-object-interaction-context-types */
-export type InteractionContextType = ConstValues<typeof InteractionContextTypes>
+export type InteractionContextType =
+    (typeof InteractionContextTypes)[keyof typeof InteractionContextTypes]
 
 /** @see https://docs.discord.com/developers/interactions/receiving-and-responding#interaction-object-interaction-data */
 export type InteractionData =
@@ -554,7 +559,7 @@ export type InteractionData =
     | undefined
 
 /** @see https://docs.discord.com/developers/interactions/receiving-and-responding#interaction-object-interaction-type */
-export type InteractionType = ConstValues<typeof InteractionTypes>
+export type InteractionType = (typeof InteractionTypes)[keyof typeof InteractionTypes]
 
 /** @see https://docs.discord.com/developers/reference#iso8601-date%2Ftime */
 export type ISO8601Timestamp = string
@@ -567,7 +572,7 @@ export interface LabelInteractionResponse {
 }
 
 /** @see https://docs.discord.com/developers/reference#locales */
-export type Locale = ConstValues<typeof Locales> | (string & {})
+export type Locale = (typeof Locales)[keyof typeof Locales] | (string & {})
 
 /** @see https://docs.discord.com/developers/components/reference#mentionable-select-mentionable-select-interaction-response-structure */
 export interface MentionableSelectInteractionResponse {
@@ -619,7 +624,8 @@ export interface Message {
 }
 
 /** @see https://docs.discord.com/developers/resources/message#message-object-message-activity-structure */
-export type MessageActivityType = ConstValues<typeof MessageActivityTypes>
+export type MessageActivityType =
+    (typeof MessageActivityTypes)[keyof typeof MessageActivityTypes]
 
 /** @see https://docs.discord.com/developers/resources/message#message-call-object */
 export interface MessageCall {
@@ -642,7 +648,8 @@ export interface MessageComponentData {
 }
 
 /** @see https://docs.discord.com/developers/components/reference#component-object-component-types */
-export type MessageComponentType = ConstValues<typeof MessageComponentTypes>
+export type MessageComponentType =
+    (typeof MessageComponentTypes)[keyof typeof MessageComponentTypes]
 
 /** @see https://docs.discord.com/developers/interactions/receiving-and-responding#message-interaction-object-message-interaction-structure */
 export interface MessageInteraction {
@@ -674,7 +681,8 @@ export interface MessageReference {
 }
 
 /** @see https://docs.discord.com/developers/resources/message#message-reference-types */
-export type MessageReferenceType = ConstValues<typeof MessageReferenceTypes>
+export type MessageReferenceType =
+    (typeof MessageReferenceTypes)[keyof typeof MessageReferenceTypes]
 
 /** @see https://docs.discord.com/developers/resources/message#message-snapshot-object */
 export interface MessageSnapshot {
@@ -689,7 +697,7 @@ export interface MessageStickerItem {
 }
 
 /** @see https://docs.discord.com/developers/resources/message#message-object-message-types */
-export type MessageType = ConstValues<typeof MessageTypes>
+export type MessageType = (typeof MessageTypes)[keyof typeof MessageTypes]
 
 /** @see https://docs.discord.com/developers/interactions/receiving-and-responding#interaction-object-modal-submit-data-structure */
 export interface ModalSubmitData {
@@ -744,7 +752,7 @@ export interface PollAnswerCount {
 }
 
 /** @see https://docs.discord.com/developers/resources/poll#layout-type */
-export type PollLayoutType = ConstValues<typeof PollLayoutTypes>
+export type PollLayoutType = (typeof PollLayoutTypes)[keyof typeof PollLayoutTypes]
 
 /** @see https://docs.discord.com/developers/resources/poll#poll-media-object-poll-media-object-structure */
 export interface PollMedia {
@@ -874,10 +882,11 @@ export interface Sticker {
 }
 
 /** @see https://docs.discord.com/developers/resources/sticker#sticker-object-sticker-format-types */
-export type StickerFormatType = ConstValues<typeof StickerFormatTypes>
+export type StickerFormatType =
+    (typeof StickerFormatTypes)[keyof typeof StickerFormatTypes]
 
 /** @see https://docs.discord.com/developers/resources/sticker#sticker-object-sticker-types */
-export type StickerType = ConstValues<typeof StickerTypes>
+export type StickerType = (typeof StickerTypes)[keyof typeof StickerTypes]
 
 /** @see https://docs.discord.com/developers/components/reference#string-select-string-select-interaction-response-structure */
 export interface StringSelectInteractionResponse {
@@ -906,10 +915,12 @@ export interface TeamMember {
 }
 
 /** @see https://docs.discord.com/developers/topics/teams#data-models-membership-state-enum */
-export type TeamMemberMembershipState = ConstValues<typeof TeamMemberMembershipStates>
+export type TeamMemberMembershipState =
+    (typeof TeamMemberMembershipStates)[keyof typeof TeamMemberMembershipStates]
 
 /** @see https://docs.discord.com/developers/topics/teams#team-member-roles-team-member-role-types */
-export type TeamMemberRoleType = ConstValues<typeof TeamMemberRoleTypes>
+export type TeamMemberRoleType =
+    (typeof TeamMemberRoleTypes)[keyof typeof TeamMemberRoleTypes]
 
 /** @see https://docs.discord.com/developers/resources/channel#thread-member-object */
 export interface ThreadMember {
