@@ -36,6 +36,7 @@ export interface GatewayEvents {
 
     WS_DEBUG: string
     WS_ERROR: string
+    WS_MESSAGE: MessageEvent
 }
 
 export type GatewayIntent = (typeof GatewayIntents)[keyof typeof GatewayIntents]

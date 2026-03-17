@@ -69,6 +69,12 @@ export class Gateway {
         this.ws.onmessage = (message) => {
             const payload = JSON.parse(message.data.toString())
 
+            this.events.emit("WS_MESSAGE", {
+                data: payload,
+                gateway: this,
+                rest: this.rest,
+            })
+
             if (payload.t) {
                 this.events.emit(payload.t, {
                     data: payload.d,
