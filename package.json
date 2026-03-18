@@ -19,17 +19,6 @@
         "turbo": "^2.8.17",
         "typescript": "^5.9.3"
     },
-    "prettier": {
-        "arrowParens": "always",
-        "jsxSingleQuote": false,
-        "printWidth": 90,
-        "quoteProps": "as-needed",
-        "semi": false,
-        "singleQuote": false,
-        "tabWidth": 4,
-        "trailingComma": "es5",
-        "useTabs": false
-    },
     "packageManager": "pnpm@10.32.1",
     "engines": {
         "node": ">=22"
