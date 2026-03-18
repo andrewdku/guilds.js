@@ -4,7 +4,7 @@ import { RESTManager } from "@/classes/rest-manager"
 import { parseToken } from "@/functions/parse-token"
 import { Endpoints } from "@/api"
 
-/** Connects to Discord Gateway */
+/** Connects to Discord's gateway */
 export class Gateway {
     #token: string
 
@@ -17,7 +17,7 @@ export class Gateway {
     /** Used for REST API calls */
     public rest: RESTManager
 
-    /** WebSocket for connecting to Discord's gateway */
+    /** WebSocket instance */
     public ws?: WebSocket
 
     /** Bot token used for authorization */
