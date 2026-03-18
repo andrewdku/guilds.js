@@ -4,12 +4,12 @@ import { readFile } from "node:fs/promises"
 import { execSync } from "node:child_process"
 
 try {
-    const { name: pkgName, version: currentVersion } = JSON.parse(
+    const { name, version } = JSON.parse(
         await readFile("./packages/guilds.js/package.json", "utf8")
     )
 
     const versions = JSON.parse(
-        execSync(`pnpm view ${pkgName} versions --json`, {
+        execSync(`pnpm view ${name} versions --json`, {
             encoding: "utf8",
         }) ?? "[]"
     )
@@ -37,7 +37,7 @@ try {
 
     const previous = devVersions.at(-1)?.version
 
-    if (!previous || previous === currentVersion) {
+    if (!previous || previous === version) {
         console.log("No dev version to deprecate.")
         process.exit(0)
     }
@@ -45,18 +45,18 @@ try {
     let deprecatedMsg = ""
 
     try {
-        deprecatedMsg = execSync(`pnpm view ${pkgName}@${previous} deprecated`, {
+        deprecatedMsg = execSync(`pnpm view ${name}@${previous} deprecated`, {
             encoding: "utf8",
         }).trim()
     } catch {}
 
     if (deprecatedMsg) {
-        console.log(`${pkgName}@${previous} is already deprecated.`)
+        console.log(`${name}@${previous} is already deprecated.`)
         process.exit(0)
     }
 
-    console.log(`Deprecating ${pkgName}@${previous}...`)
-    execSync(`pnpm deprecate "${pkgName}@${previous}" "outdated dev build"`, {
+    console.log(`Deprecating ${name}@${previous}...`)
+    execSync(`pnpm deprecate "${name}@${previous}" "outdated dev build"`, {
         stdio: "inherit",
         env: { ...process.env },
     })
