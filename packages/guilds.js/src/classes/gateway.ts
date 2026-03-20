@@ -188,7 +188,7 @@ export class Gateway {
                 rest: this.rest,
             })
 
-            setTimeout(this.connect, 3000)
+            setTimeout(() => this.connect(), 3000)
         }
 
         return this
